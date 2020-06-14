@@ -1,1 +1,7 @@
 
+Django == 3.0.7
+background_task == 0.1.8
+mathfilters == 1.0.0
+chartjs == 1.2
+pandas==0.24.2
+
