@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+<div class="container">
+<div><a href="{% url 'product_views' %}">Back</a></div>
+<div style="margin-top: 5%;margin-bottom: 10%">
+<span>Warehouse : {{ inventory.warehouse.name }}</span>
+    <span style="margin-left: 10%">Name : {{ inventory.product.name }}</span>
+<span style="margin-left: 10%">Name : {{ inventory.product.id }}</span>
+    <table class="table table-bordered" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Quantity</th>
+        <th>Remain</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in inventory.product_cartex %}
+    <tr>
+
+        <th>{{ item.order.orderkinde.name }} </th>
+        <th>{{ item.order.creation_date }}</th>
+        <th>{{ item.quantity }}</th>
+        <th> </th>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+</div>
+
+
+{% endblock %}

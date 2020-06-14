@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load mathfilters %}
+{% block Head %}
+    <title>{{ Title }}</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+        });
+    </script>
+
+
+
+
+
+{% endblock Head %}
+
+{% block content %}
+<div class="container">
+<div style="margin-top: 5%">
+    <table class="table table-info" id="datatable" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Order Code</th>
+        <th>Shipment</th>
+        <th>Product Code</th>
+        <th>Product Name</th>
+        <th>Total Quantity</th>
+        <th>Quantity(Box)</th>
+        <th>Quantity(Small)</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.order.first_code }}</td>
+        <td>{{ order.order.shipment.code }}</td>
+        <td>{{ order.product.id }}</td>
+        <td>{{ order.product.name }}</td>
+        <td>{{ order.quantity }}</td>
+    <td>{{ order.quantity|div:order.product.box }}</td>
+    <td>{{ order.quantity|mod:order.product.box }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+    </table>
+</div>
+</div>
+
+
+
+
+{% endblock %}

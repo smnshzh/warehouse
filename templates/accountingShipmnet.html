@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load mathfilters %}
+
+
+{% block content %}
+
+<div class="container">
+    <a href="{% url 'show_shipments_ready_for_accounting' %}"> Back To Ready Shipments View</a>
+<div style="margin-top: 5%;margin-bottom: 5%">
+ <form action="" method="post">
+     <select  name="Box">
+         {% for box in boxes %}
+         <option value="{{ box.id }}" >{{ box.name }}</option>
+         {% endfor %}
+     </select>
+    <table class="table table-hover table-info" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Order Code</th>
+        <th>Account</th>
+        <th>Settle Type</th>
+        <th>Total</th>
+        <th>Cash</th>
+        <th>Pose</th>
+        <th>Cheque</th>
+        <th>Remain</th>
+    </tr>
+    </thead>
+    {% for order in orders %}
+
+    <tr onclick="display_block({{ order.first_code }})" style="cursor: pointer">
+
+        <td><a class="first_code" href="{% url 'settle_order' order.id %}">{{ order.first_code }}</a></td>
+        <td>{{ order.accountside.id_code }}/{{ order.accountside.name }}</td>
+        <td>{{ order.settlement.name }}</td>
+        <td>$ {{ order.order_totalPrice }}</td>
+        <td>$ {{ order.total_settle_cash }}</td>
+        <td>$ {{ order.total_settle_pose }}</td>
+        <td>$ {{ order.total_settle_cheque }}</td>
+    <td>$ {{ order.order_totalPrice|sub:order.total_settle }}</td>
+
+        {% if  order.cheque %}
+
+            <thead  class="row-cols-1 hidden{{ order.first_code }}" style="display: none">
+            <tr>
+                <th>Type</th>
+                <th> Ammount</th>
+                <th>Serial Number</th>
+                <th>Bank</th>
+                <th>Recieved Date</th>
+                <th>Unsence Date</th>
+                <th>Day Long</th>
+            </tr>
+            </thead>
+            <tbody class="row-cols-1 hidden{{ order.first_code }}" style="display: none">
+            {% for cheque in order.cheque %}
+            <tr  id = "settle{{ cheque.id }}" class="settle"
+                 onclick="false_color({{ cheque.id }})"
+                 ondblclick="confirm_color({{ cheque.id }})" style="cursor: pointer">
+            <th>Cheque</th>
+                <td>$ {{ cheque.amount }} </td>
+                <td>{{ cheque.serial_num }}</td>
+            <td>{{ cheque.bank.name }} Bank</td>
+                <td>{{ cheque.now_date.day }}/{{ cheque.now_date.month }}/{{ cheque.now_date.year }}</td>
+            <td>{{ cheque.usance_date.day }}/{{ cheque.usance_date.month }}/{{ cheque.usance_date.year }}</td>
+            <th>{{ cheque.usance_date.date|sub:cheque.now_date.date }}</th>
+            </tr>
+
+                {% endfor %}
+            </tbody>
+
+    {% endif %}
+    {% if  order.pose %}
+
+            <thead class="row-cols-1 hidden{{ order.first_code }}" style="display: none" >
+            <tr>
+                <th>Type</th>
+                <th>Bank</th>
+                <th> Ammount</th>
+                <th>Serial Number</th>
+                <th>Date</th>
+
+
+
+            </tr>
+            </thead>
+            <tbody class=" hidden{{ order.first_code }}" style="display: none">
+            {% for pose in order.pose %}
+            <tr id = "settle{{ pose.id }}" class="settle"
+                onclick="false_color({{ pose.id }})"
+                ondblclick="confirm_color({{ pose.id }})" style="cursor: pointer">
+            <th>Pose</th>
+                <td> {{ pose.bank_pose }}</td>
+                <td>$ {{ pose.amount }} </td>
+                <td>{{ pose.serial_num }}</td>
+
+            <td>{{ pose.now_date.day }}/{{ pose.now_date.month }}/{{ pose.now_date.year }}</td>
+            </tr>
+                {% endfor %}
+            </tbody>
+
+    {% endif %}
+
+
+
+    </tr>
+    {% endfor %}
+
+    </table>
+
+        <input type="submit" value="Confirm">
+        {% csrf_token %}
+    </form>
+</div>
+
+</div>
+
+{% endblock %}
+
+
+{% block js%}
+    <script type="text/javascript" src="{% static 'accountingshipmentjavascript.js' %}">
+</script>
+{% endblock %}

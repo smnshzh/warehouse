@@ -1,0 +1,79 @@
+{% load static %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+
+<div style="margin-left: 10%;margin-right: 10%">
+    <p><h1 style="margin-left:33%;margin-right:33%;margin-bottom: 5%;">{{ kinde }} Code : {{ order.first_code }}</h1></p>
+    <p style="border: 1px groove black;margin-bottom: 3%"></p>
+    <div style="margin-bottom: 5%"><span style="margin-right: 10%">Name : {{ order.accountside.name }}</span>
+        <span style="margin-right: 10%">Tel : {{ order.accountside.telephonnumber }}</span>
+    <span style="margin-right: 10%"> Visitor : {{ order.visitor.first_name }} {{ order.visitor.last_name }}</span>
+        <span style="margin-right: 10%">Deliver : {{ order.shipment.distributeur.first_name }} {{ order.shipment.distributeur.last_name }}</span>
+    <span>Shipment code : {{ order.shipment.code }}</span>
+    </div>
+    <p style="border: 1px groove black;margin-bottom: 3%"></p>
+    <div style="margin-bottom: 3%">Address : {{ order.accountside.region.city }} -
+        {{  order.accountside.region.local_name }} - {{ order.accountside.address }}</div>
+ <p style="border: 1px groove black;margin-bottom: 3%"></p>
+
+
+    <table style="border: 1px groove black; width: 100%;text-align: center">
+    <thead>
+    <tr style="border: 1px groove black;">
+        <th style="border: 1px groove black;">row</th>
+        <th style="border: 1px groove black;">code</th>
+        <th style="border: 1px groove black;">Name</th>
+        <th style="border: 1px groove black;">Box</th>
+        <th style="border: 1px groove black;">Quantity(box)</th>
+        <th style="border: 1px groove black;">Quantity(small)</th>
+        <th style="border: 1px groove black;">Price</th>
+        <th style="border: 1px groove black;">Off</th>
+        <th style="border: 1px groove black;">VAT</th>
+        <th style="border: 1px groove black;">Total Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+    <tr style="border-top:1px solid darkblue;">
+    <td>{{ forloop.counter }}</td>
+        <td >{{ item.product.id }}</td>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.product.box }}</td>
+        <td>{{ item.quantity|div:item.product.box }}</td>
+        <td>{{ item.quantity|mod:item.product.box }}</td>
+        <td>{{ item.unit_price }}</td>
+        <td>{{ item.off }}</td>
+        <td>{{ item.vat }}</td>
+        <td>{{ item.total_price }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot style=" ">
+    <tr style="border-top:1px solid black;margin-top: 10%">
+    <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+      <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+     <td style="border-top:1px solid black;margin-top: 10%"></td>
+    <td style="border-top:1px solid black;margin-top: 10%">Final Price</td>
+    <td style="border-top:1px solid black;margin-top: 10%">{{ order.order_finalPrice }}</td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+
+</body>
+</html>

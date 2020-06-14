@@ -1,0 +1,163 @@
+{% extends 'base.html' %} {% load mathfilters %} {% load static %} {% block Head %}
+    <title>
+        {% if buy_order.code %}
+   Invoice Number : {{ buy_order.code }}
+    {% else %}
+     Buy Order Number : {{ id }}
+    {% endif %}
+       </title>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> {% endblock Head %}
+{% block content %}
+
+    <div class="container">
+    {% if buy_order.code %}
+    <h4>Invoice Number : {{ buy_order.code }}</h4>
+    {% else %}
+    <h4> Buy Order Number : {{ id }}</h4>
+    {% endif %}
+    <div class="accountside_info" id="accountside_info">
+        <p id="premier-ifo" class="premier-ifo">
+            <span class="info" style="margin-right: 40px"><span>ID : </span><span id="id">{{ Aid }}</span></span>
+            <span class="info" style="margin-right: 40px"><span>Name : </span><span id="name">{{ name }}</span></span>
+            <span class="info" style="margin-right: 40px"><span>Phone :</span><span id="Tel">{{ tel }}</span></span>
+
+
+        </p>
+        <p><span class="info" style="margin-right: 40px"><span>Address :</span><span
+                id="address">{{ address }}</span></span>
+        </p>
+        <div class="container mb-4 mt-3">
+            <form action="{% url 'edit_buy_order' id %}" method="post">
+            {% if buy_order.code %}
+                <div style="float: right">
+                <strong>Warehouse Name : {{ buy_order.warehouse.name }}</strong>
+                </div>
+                {% else %}
+                <div style="float: right">
+                <select name="warehouse" id="" >
+
+                    {% for warhouse in warehouses %}
+                        {% if warhouse ==  buy_order.warehouse.name   %}
+                            <option value="{{ warhouse }}" selected>{{ warhouse }}</option>
+                            {% else %}
+                            <option value="{{ warhouse }}">{{ warhouse }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                </div>
+            {% endif %}
+                <input id="suplier" type="text" placeholder="Suplier Name" required class="input-group-text"
+                       onkeyup="accountside_info()" onchange="accountside_info()" value="{{ accountside }}" disabled>
+                <input type="hidden" value="" disabled id="suplier_id" name="suplier">
+
+                <table id="product" class="table dataTable" style="text-align:center">
+
+                    <thead>
+                    <tr>
+                        <th scope='col'>Row</th>
+                        <th scope="col" style="cursor: pointer">Name</th>
+                        <th>Box</th>
+                        <th scope="col" style="cursor: pointer">Quantity</th>
+                        <th scope="col" style="cursor: pointer">Price</th>
+                        <th scope="col" style="cursor: pointer">Total Price</th>
+
+
+                    </tr>
+                    <tbody>
+
+
+                    {% for item in order %}
+
+
+
+                        <tr class="TR">
+
+                            <td title="" id="row" style="text-align: center">{{ forloop.counter }}</td>
+                            <td style="margin: 0 auto"><input type="text" class="product_name input-group-text"
+                                                              id="product_name{{ forloop.counter }}"
+                                                              name="product_name{{ forloop.counter }}"
+                                                              placeholder="Product Name" required
+                                                              onkeyup="price_getter({{ forloop.counter }})"
+                                                              value="{{ item.product.name }}" disabled></td>
+                            <td style="margin: 0 auto"><input type="number"
+                                                              class="product_box_quantity input-group-text"
+                                                              id="product_box_quantity{{ forloop.counter }}" step="1"
+                                                              name="product_name{{ forloop.counter }}"
+                                                              placeholder="Quantity" required
+                                                              onkeyup="price_getter({{ forloop.counter }})"
+                                                              onclick="price_getter({{ forloop.counter }})" min="1"
+                                                              value="{{ item.quantity|div:item.product.box }}" disabled>
+                            </td>
+                            <td style="margin: 0 auto"><span class="product_quantity"
+                                                             id="product_quantity{{ forloop.counter }}">{{ item.quantity }}</span>
+                            </td>
+                            <td style="margin: 0 auto"><input name="product_name{{ forloop.counter }}" type="number"
+                                                              step="0.01"
+                                                              id="price{{ forloop.counter }}"
+                                                              class="buy_price input-group-text"
+                                                              onkeyup="price_getter({{ forloop.counter }})"
+                                                              onclick="price_getter({{ forloop.counter }})"
+                                                              min="1" value="{{ item.unit_price }}" disabled></td>
+                            <td>$<span class="total_price"
+                                       id="total_Price{{ forloop.counter }}">{{ item.total_price }}</span></td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Final Price</td>
+                        <td id="final_price"></td>
+
+
+                    </tr>
+                    </tfoot>
+                </table>
+                {% if buy_order.checked_out != True %}
+                    <button class="btn btn-success" id="sending">apply changes</button> {% if tik %}
+                    <button onclick="{% url 'warehouse_confirm_buy_order_by_id' id %}">Confirm</button> {% endif %}
+                    {% csrf_token %}
+                    </form>
+                    <button onclick="append_input()" class="btn btn-success">&#x2b;</button>
+
+                    <button onclick="remove_input()" class="btn btn-success">-</button>
+                    <button type="button" class="btn-success" onclick="disableFalse()">Edit</button>{% endif %}
+        </div>
+
+    </div>
+
+{% endblock %} {% block js %}
+
+    <script src="{% static 'apiArrays.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script>
+        var $jq133 = jQuery.noConflict(true);
+    </script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+        $("#suplier").autocomplete({
+            source: accountsideList
+        });
+        $(".product_name").autocomplete({
+            source: productsList
+        });
+    </script>
+    <script src="{% static 'edit-buy-order-java-script.js' %}">
+    </script>
+    <script>
+        final_price()
+    </script>
+{% endblock js %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+   <div class="container">
+
+       <div class="row">
+       {% for item in news %}
+           <div class="col">
+           <div class="card">
+{#               <img class="card-img" src="{{ item.urlToImage }}" alt="Card image cap">#}
+  <h4 class="card-header">{{ item.title }}</h4>
+               <h5 class="card-header-tabs">{{ item.author }}</h5>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="{{item.url}}" class="btn btn-primary">{{ item.source.name }}</a>
+  </div>
+</div>
+
+   {% endfor %}
+</div>
+   </div>
+{% endblock %}

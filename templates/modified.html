@@ -1,0 +1,169 @@
+{% extends 'base.html' %} {% load static %} {% block Head %}
+<title>{{ Title }}</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#datatable').dataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+
+        });
+    });
+</script>
+
+{% endblock Head %} {% block content %}
+
+<div class="container">
+    <p class="header header_content">{{ Title }}</p>
+{% if filter %}
+    <form action="" class="form-inline">
+
+        {{ filter.form }}
+
+        <input type="submit" class="btn btn-primary mb-2">
+    </form>
+{% endif %}
+
+    <div class="container mb-4 mt-3">
+        <form action="" method="post">
+        <input type="hidden" name="Add" id="hidden-input" >
+            {{form}}
+            <table id="datatable" class="table dataTable">
+
+                <thead>
+                    <tr >
+                        <th scope='col'>Row</th>
+                        <th scope="col" style="cursor: pointer">Id</th>
+                        <th scope="col" style="cursor: pointer">Name</th>
+                        <th scope="col" style="cursor: pointer">Date</th>
+                        <th scope="col" style="cursor: pointer">Seller</th>
+                        <td scope="col" style="cursor: pointer">Total Box</td>
+                        <th scope="col" style="cursor: pointer">Region</th>
+                        <th scope="col" style="cursor: pointer">Address</th>
+                        <th>Remove</th>
+                        <th style="cursor: pointer" >Total Price</th>
+                        <th style="cursor: pointer">Warehouse</th>
+                        <th title="Sent To Warehouse">{{ checkout }}</th>
+                        {% if shipments %}
+                        <th>Add To Shipment</th>
+                        {% endif %}
+
+                    </tr>
+                    <tbody>
+
+                        {% for item in order_set %}
+
+
+
+                        <tr>
+                            <td>{{ forloop.counter }} </td>
+                            <td><a href="{% url 'show_order_items' item.id %}">{{ item.first_code }}</a></td>
+                            <td>{{ item.accountside }}</td>
+                            <td title="{{ item.creation_date.date }}">{{item.creation_date.date }}</td>
+                            <td class="cart_num">{{ item.visitor.first_name }} {{ item.visitor.last_name }}</td>
+                            <td>{{ item.total_box }}</td>
+                            <td>{{ item.accountside.region }}</td>
+                            <td>{{ item.accountside.address }}</td>
+                            <td><a href="{% url 'remove_order' item.id %}">Remove Item</a></td>
+                            <td class="cart_num" >$ <span class="total_price">{{ item.order_totalPrice }}</span></td>
+                            <td>{{ item.warhouse.name }}</td>
+                        <td>
+
+                                <input type="checkbox" name="{{ item.id }}" ></td>
+                        {% if shipments %}
+
+                        <td>
+
+
+                                <select name="sid"  class="sid">
+                                    <option value=""></option>
+                                    {% for shipment in shipments %}
+                                        {% if item.warhouse.id == shipment.warehouse.id %}
+                                        <option value="{{ item.id }}t{{ shipment.id }}s">{{ shipment.code }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                </select>
+
+
+                        </td>
+                        {% endif %}
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="alignment: center">Sum Of Total Prices :</td>
+                            <td >$ <span id="final"></span></td>
+                            <td></td>
+                            <td></td>
+                            {% if shipments %}
+                            <td></td>
+                            {% endif %}
+                        </tr>
+                    </tfoot>
+            </table>
+            {% csrf_token %}
+            <input type="submit" value="Send" class="btn btn-success">
+        </form>
+
+    </div>
+
+</div>
+{% endblock content %}
+{% block js %}
+
+
+    <script type="text/javascript" src="{% static 'modifiedscript.js' %}">
+
+    </script>
+    <script>
+
+document.addEventListener("mousemove", function () {
+    var sid = document.getElementsByClassName("sid");
+    var hidden = document.getElementById("hidden-input");
+    blank = [];
+    for(var i = 0;i<sid.length;i++){
+        if (sid[i].value){
+            blank.push(sid[i].value)
+        }
+    }
+    if (blank.length > 0){
+        hidden.value = 1
+    }
+    else {
+        hidden.value = ""
+    }
+})
+    </script>
+
+{% endblock %}

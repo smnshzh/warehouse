@@ -1,0 +1,138 @@
+<html>
+<head>
+    {% load static %}
+
+    <script src="{% static 'popper.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <script src="{% static 'java.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+</head>
+
+<body>
+<div class="container">
+
+<div style="margin-top: 5%;margin-bottom: 2%"><h3>Shipment Number {{ shipment.code }}</h3></div>
+
+<div style="margin-top: 5%;margin-bottom: 5%"><h5><span style="margin-right: 25%">
+    Distributor : {{ shipment.distributeur.first_name }} {{ shipment.distributeur.last_name }}</span>
+    <span>Date & Time : {{ orders.first.data_convert_invoice }}</span></h5>
+<div style="border: 1px solid black;margin-top: 5%"></div>
+
+    <table class="table table-hover table-responsive-lg" style="text-align: center">
+        <thead>
+        <tr>
+            <th>Order Code</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Total Price</th>
+            <th>Settle Type</th>
+            <th>Cash</th>
+            <th>Pose</th>
+            <th>Cheque</th>
+            <th>Total Settle</th>
+            <th>Remain</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.first_code }}</td>
+                <td>{{ order.fianl_code }}</td>
+                <td>{{ order.accountside.name }}</td>
+                <td>${{ order.order_finalPrice }}</td>
+                <td>{{ order.settlement.name }}</td>
+                <td>${{ order.total_settle_cash_befor_final }}</td>
+                <td>${{ order.total_settle_pose_befor_final }}</td>
+                <td>${{ order.total_settle_cheque_befor_final }}</td>
+                <td>${{ order.total_settle_for_shipment }}</td>
+                <td>${{ order.non_settelde_befor_final|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+
+            <td>${{ shipment.total_price }}</td>
+            <td></td>
+            <td>${{ shipment.cash_total_settle }}</td>
+            <td>${{ shipment.pose_total_settle }}</td>
+            <td>${{ shipment.cheque_total_settle }}</td>
+            <td>${{ shipment.total_settle }}</td>
+            <td>${{ shipment.total_remain|floatformat:2 }}</td>
+
+        </tr>
+        </tfoot>
+
+    </table>
+{% if shipment.cheque_total_settle %}
+<div style="border: 1px solid black;margin-top: 5%"></div>
+    <h5><div style="background-color: #0FA0CE;text-align: center" >Cheque</div></h5>
+    <table class="table table-hover table-responsive-xl" style="text-align: center">
+    <thead>
+    <tr>
+       <th>Invoice</th>
+        <th>Amount</th>
+        <th>Uncanse</th>
+        <th>serial</th>
+        <th>Bank</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% for order in orders %}
+
+    {% for cheque in order.cheque %}
+    <tr>
+        <td>{{ cheque.sell_order.fianl_code }}</td>
+        <td>${{ cheque.amount}}</td>
+        <td>{{ cheque.usance_date.day }}\{{ cheque.usance_date.month }}\{{ cheque.usance_date.year }}</td>
+        <td>{{ cheque.serial_num }}</td>
+        <td>{{ cheque.bank.name }} Bank</td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+{% if shipment.pose_total_settle %}
+<div style="border: 1px solid black;margin-top: 5%"></div>
+    <h5><div style="background-color: #0FA0CE;text-align: center" >Pose</div></h5>
+ <table class="table table-hover table-responsive-lg" style="text-align: center">
+    <thead>
+    <tr>
+       <th>Invoice</th>
+        <th>Amount</th>
+        <th>Uncanse</th>
+        <th>serial</th>
+        <th>Bank</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for order in orders %}
+    {% for pose in order.pose %}
+    <tr>
+        <td>{{ pose.sell_order.fianl_code }}</td>
+        <td>${{ pose.amount}}</td>
+        <td>{{ pose.now_date.day }}\{{ pose.now_date.month }}\{{ pose.now_date.year }}</td>
+        <td>{{ pose.serial_num }}</td>
+        <td>{{ pose.bank_pose }} </td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+    </tbody>
+    </table>
+{% endif %}
+
+
+</div>
+</div>
+</body>
+</html>

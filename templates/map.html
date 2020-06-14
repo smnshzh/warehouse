@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block Head %}
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet'/>
+
+{% endblock Head %}
+
+
+{% block content %}
+
+    <div id='map' style='width: 100%; height: 600px;'></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic21uc2h6aCIsImEiOiJja2I0M3pkaTIwYnhoMnNvNzhucWJ6NDIyIn0.LZJqiPWvFWKxQtJeG_va1w';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [51.3890, 35.6892],
+            zoom: 10
+
+        });
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            language: 'fa-FA',
+            mapboxgl: mapboxgl
+        });
+        map.addControl(geocoder);
+    </script>
+    {% for geo in geos %}
+        <script>
+
+            var marker = new mapboxgl.Marker({draggable: true})
+                .setLngLat([{{ geo.long }}, {{ geo.lat }}])
+
+                .setPopup(new mapboxgl.Popup().setHTML("<h1>{{ geo.account.name }}</h1>")) // add popup
+
+                .addTo(map);
+        </script>
+    {% endfor %}
+
+{% endblock %}
+

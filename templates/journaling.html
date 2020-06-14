@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block Head %}
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div style="margin-right : 23%;margin-left: 23%
+    ;margin-bottom: 20%;margin-top: 5%;">
+    <form action="" method="post">
+
+        <table style="text-align: center;margin: auto" >
+
+            <thead>
+            <tr>
+
+
+                <th scope="col" style="cursor: pointer">Difinit Account</th>
+                <th scope="col" style="cursor: pointer">Detailed Account</th>
+                <th scope="col" style="cursor: pointer">debt</th>
+                <th scope="col" style="cursor: pointer">credit</th>
+                <th scope="col" style="cursor: pointer">Description</th>
+            </tr>
+            </thead>
+
+            <tbody id="journal">
+            <tr class="TR">
+                <td><input class="difinit input-group-text" id="difinit1" type="text"
+                           name="journal1" placeholder="Difint Account" required></td>
+                <td><input type="text" class="detailed input-group-text"
+                           id="detailed1" name="journal1" placeholder="Detailed Account" required><input type="hidden"></td>
+                <td><input type="number" class="debt input-group-text" id="debt1"
+                           name="journal1" placeholder="Debt" min=0 required></td>
+                <td><input type="number" class="credit input-group-text" id="credit1"
+                           name="journal1" placeholder="Credit" min=0 required></td>
+                <td><input name="journal1" type="text" id="description1"
+                           class="description input-group-text" placeholder="Description"></td>
+            </tr>
+            <tr>
+                <td><input class="difinit input-group-text" id="difinit2" type="text"
+                           name="journal2" placeholder="Difint Account" required></td>
+                <td><input type="text" class="detailed input-group-text"
+                           id="detailed2" name="journal2" placeholder="Detailed Account" required></td>
+                <td><input type="number" class="debt input-group-text" id="debt2"
+                           name="journal2" placeholder="Debt" min=0 required></td>
+                <td><input type="number" class="credit input-group-text" id="credit2"
+                           name="journal2" placeholder="Credit" min=0 required></td>
+                <td><input name="journal2" type="text" id="description2"
+                           class="description input-group-text" placeholder="Description"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    <input type="submit" class="btn btn-success" name="" id="">
+                {% csrf_token %}
+</form>
+    <button  class="btn-dark" id="add"><strong>+</strong></button>
+    <button onclick="remove_element()" class="btn-dark"><strong>-</strong></button>
+
+    </div>
+</div>
+
+    {% block js %}
+        <script src="{% static 'apiArrays.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+
+            $(".detailed").autocomplete({
+                source: accountsideList
+            });
+            $(".difinit").autocomplete({
+                source: difintList
+            });
+
+        </script>
+        <script>
+            (document.getElementById("add")).addEventListener("click", function () {
+            add_element()
+
+        })
+        </script>
+        <script>
+        function add_element() {
+
+
+        var bodyJournal = document.getElementById("journal");
+        var createdTr = document.createElement('tr');
+        var createdInputDifinit = document.createElement('input');
+        var createdInputDetailed = document.createElement('input');
+        var createdInputDebt = document.createElement('input');
+        var createdInputCredit = document.createElement('input');
+        var createdInputDescription = document.createElement('input');
+
+
+
+        var difinitClass = document.getElementsByClassName('difinit');
+        var numberOfEll = difinitClass.length;
+        var elementCounter = Number(numberOfEll)+1;
+
+        createdInputDifinit.className = "difinit input-group-text";
+        createdInputDifinit.type = "text";
+        createdInputDifinit.id = "difinit"+elementCounter;
+        createdInputDifinit.name = "journal"+elementCounter;
+        createdInputDifinit.placeholder = "Difinit";
+        createdInputDifinit.required = true;
+
+        createdInputDetailed.className = "detailed input-group-text";
+        createdInputDetailed.type = "text";
+        createdInputDetailed.id = "detailed"+elementCounter;
+        createdInputDetailed.name = "journal"+elementCounter;
+        createdInputDetailed.placeholder = "Detailed Account";
+        createdInputDetailed.required = true;
+
+        createdInputDebt.className = "debt input-group-text";
+        createdInputDebt.type = "number";
+        createdInputDebt.id = "debt"+elementCounter;
+        createdInputDebt.name = "journal"+elementCounter;
+        createdInputDebt.placeholder = "Debt";
+        createdInputDebt.min="0";
+        createdInputDebt.required = true;
+
+        createdInputCredit.className = "credit input-group-text";
+        createdInputCredit.type = "number";
+        createdInputCredit.id = "credit"+elementCounter;
+        createdInputCredit.name = "journal"+elementCounter;
+        createdInputCredit.placeholder = "Credit";
+        createdInputCredit.min="0";
+        createdInputCredit.required = true;
+
+        createdInputDescription.className = "description input-group-text";
+        createdInputDescription.type = "text";
+        createdInputDescription.id = "description"+elementCounter;
+        createdInputDescription.name = "journal"+elementCounter;
+        createdInputDescription.placeholder = "Description";
+
+        var listOfCreatedEl = [createdInputDifinit,createdInputDetailed,
+            createdInputCredit,createdInputDebt,createdInputDescription];
+
+        for (var i = 0; i<listOfCreatedEl.length;i++){
+            var createdTd = document.createElement('td');
+            bodyJournal.append(createdTr);
+            createdTr.append(createdTd);
+            createdTd.append(listOfCreatedEl[i]);
+
+        }
+        $(".detailed").autocomplete({
+                source: accountsideList
+            });
+            $(".difinit").autocomplete({
+                source: difintList
+            });
+
+        }
+        function remove_element() {
+            var trElements = document.getElementsByTagName('tr');
+            if (trElements.length>3){
+                (trElements[Number(trElements.length)-1]).remove()
+
+            }
+
+        }
+
+        </script>
+
+
+    {% endblock js %}
+
+
+{% endblock %}

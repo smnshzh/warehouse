@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% load mathfilters %}
+{% load static %}
+{% block Head %}
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+{% endblock Head %}
+
+
+{% block content %}
+    <div class="container">
+        <div style="margin-top: 5%">
+            <div style="margin-bottom: 5%">
+                <form action="" method="post" class="form-inline">
+                  <span style="margin-right: 5%">
+                     <h5> <input {% if onway %} checked {% endif %} type="radio" name="status" value="1">On Delivery</h5></span>
+                    <span style="margin-right: 5%">
+        <h5><input{% if accounting %} checked {% endif %} type="radio"
+                                  name="status" value="2">Accounting</h5></span>
+                    <span style="margin-right: 5%">
+                        <h5><input {% if settled %} checked {% endif %} type="radio"
+                                                                           name="status" value="3">Setteled</h5></span>
+                <span style="margin-right: 5%">
+                     <h5> <input  {% if not settled and not accounting and not onway  %}checked {% endif %}
+                                  type="radio" name="status" value="4">All</h5></span>
+
+    <div style="margin-top: 2%"><input type="submit" value="submit"></div>{% csrf_token %}
+                </form>
+            </div>
+            <table class="table table-hover table-bordered" style="text-align: center">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Distributor</th>
+                    <th>Total Price</th>
+                    <th>Total Settle</th>
+                    <th>Remain Price</th>
+                    <th>Settlment</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% if shipments %}
+                    {% for shipment in shipments %}
+                        <tr>
+                            <td type="row">{{ shipment.code }}</td>
+                            <td>{{ shipment.distributeur }}</td>
+                            <td>{{ shipment.total_price }}</td>
+                            <td>{{ shipment.total_settle }}</td>
+                            <td>{{ shipment.total_price|sub:shipment.total_settle }}</td>
+                            <td>{% if shipment.checked_out_4 and shipment.checked_out_5 == False %}
+                                <a href="{% url 'accounting_shipment' shipment.id %}"><i class='far fa-clipboard'
+                                      style='font-size:18px;color:deepskyblue'></i></a>{% elif shipment.checked_out_5 %}
+                                <a href="{% url 'settletd_shipment_report' shipment.id %}" target="_blank"><i class='fas fa-clipboard-check'
+                                                              style='font-size:18px;color:green'></i></a>
+                            {% else %}   <i class='fas fa-truck' style='font-size:18px;color:red'></i>{% endif %}</td>
+
+
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="table-borderless">
+
+                        <td colspan="6"> <h4>No matching records found</h4></td>
+
+
+                    </tr>
+                {% endif %}
+                </tbody>
+
+
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}

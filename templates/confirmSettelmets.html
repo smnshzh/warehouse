@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+<select name="Box" id="">
+                {% for box in access_box %}
+                <option value="{{ box.id }}">{{ box.name }}</option>
+                {% endfor %}
+            </select>
+
+
+<div style="background-color:cornflowerblue "><h3 style="margin-left: 50%;margin-right: 50%;margin-top: 2%;margin-bottom: 2%">Cash</h3></div>
+    <table class="table table-hover table-responsive-lg" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Order</th>
+        <th>Account</th>
+        <th></th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th></th>
+        <th>Confirm</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for settle in cashs %}
+
+    <tr>
+    <td>{{ settle.sell_order.fianl_code }}</td>
+        <td>{{ settle.sell_order.accountside.name }}</td>
+        <td></td>
+    <td>{{ settle.user.username }}</td>
+        <td>{{ settle.now_date.day }}/{{ settle.now_date.month }}/{{ settle.now_date.year }}</td>
+        <td>$<span class="amount-cash">{{ settle.amount }}</span></td>
+        <td></td>
+    <td><input type="checkbox" name ="cash" value="{{ settle.id }}"></td>
+    </tr>
+
+    {% endfor %}
+    {% if not cashs %}
+    <td colspan="8"><h5 style="color: red">NO ITEM TO SHOW</h5></td>
+    {% endif %}
+    </tbody>
+    </table>
+
+
+
+    <div style="background-color:cornflowerblue "><h3 style="margin-left: 50%;margin-right: 50%;margin-top: 2%;margin-bottom: 2%">Pose</h3></div>
+    <table class="table table-hover table-responsive-lg" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Order</th>
+        <th>Account</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Serial</th>
+        <th>Bank</th>
+        <th>Confirm</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for settle in poses %}
+
+    <tr>
+    <td>{{ settle.sell_order.fianl_code }}</td>
+        <td>{{ settle.sell_order.accountside.name }}</td>
+    <td>{{ settle.user.username }}</td>
+        <td>{{ settle.now_date.day }}/{{ settle.now_date.month }}/{{ settle.now_date.year }}</td>
+        <td>$<span class="amount-pose">{{ settle.amount }}</span></td>
+        <td>{{ settle.serial_num }}</td>
+        <td>{{ settle.bank_pose }}</td>
+
+    <td><input type="checkbox" name="pose" value="{{ settle.id }}"></td>
+    </tr>
+
+    {% endfor %}
+    {% if not poses %}
+    <td colspan="8"><h5 style="color: red">NO ITEM TO SHOW</h5></td>
+    {% endif %}
+    </tbody>
+    </table>
+   <div style="background-color:cornflowerblue "><h3 style="margin-left: 50%;margin-right: 50%;margin-top: 2%;margin-bottom: 2%">Cheque</h3></div>
+    <table class="table table-hover table-responsive-lg" style="text-align: center">
+    <thead>
+    <tr>
+        <th>Order</th>
+        <th>Account</th>
+        <th>User</th>
+        <th>Unsance</th>
+        <th>Amount</th>
+        <th>Serial</th>
+        <th>Bank</th>
+        <th>Confirm</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for settle in cheques %}
+    <tr>
+    <td>{{ settle.sell_order.fianl_code }}</td>
+        <td>{{ settle.sell_order.accountside.name }}</td>
+    <td>{{ settle.user.username }}</td>
+        <td>{{ settle.usance_date.day }}/{{ settle.usance_date.month }}/{{ settle.usance_date.year }}</td>
+        <td>$<span class="amount-cheque">{{ settle.amount }}</span></td>
+    <td>{{ settle.serial_num }}</td>
+        <td>{{ settle.bank.name }}</td>
+
+    <td><input type="checkbox" name="cheque" value="{{ settle.id }}"></td>
+    </tr>
+    {% endfor %}
+    {% if not cheques %}
+    <td colspan="8"><h5 style="color: red">NO ITEM TO SHOW</h5></td>
+    {% endif %}
+
+    </tbody>
+
+
+
+    </table>
+
+        <div style="margin-bottom: 5%;margin-top: 5%;border-top: 1px solid black "></div><div style="margin-bottom: 5%;margin-top: 5%;"><input type="submit" value="Send" class="btn btn-sm btn-success"></div>
+    {% csrf_token %}
+    </form>
+</div>
+{% endblock %}

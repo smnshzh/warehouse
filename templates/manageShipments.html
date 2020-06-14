@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block Head %}
+    <title>{{ Title }}</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#datatable').dataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+
+                });
+            });
+        </script>
+
+
+
+
+
+{% endblock Head %}
+
+
+
+{% block content %}
+
+    <div class="container">
+        <p class="header header_content">{{ Title }}</p>
+
+        <div class="container mb-4 mt-3">
+            <form action="" method="post">
+                <table id="datatable" class="table dataTable0" style="text-align: center">
+
+
+                    <thead>
+
+                    <tr>
+                        <th scope='col'>Row</th>
+                        <th scope="col" style="cursor: pointer">Code</th>
+                        <th scope="col" style="cursor: pointer">Date</th>
+                        <th scope="col" style="cursor: pointer">Total Price</th>
+                        <th scope="col" style="cursor: pointer">Distributor</th>
+                        <th scope="col" style="cursor: pointer">Vehicle</th>
+                        <th scope="col" style="cursor: pointer">Total Box</th>
+                        <th scope="col" style="cursor: pointer">Status</th>
+                        <th>Warehouse</th>
+                        {% if warehouse and RS %}
+                            <th>Recieve</th>
+                            <th>Send</th>
+                        {% elif warehouse %}
+                            <th>Cancle</th>
+
+                        {% else %}
+                            <th>Delete</th>
+
+                        {% endif %}
+                        {% if overall %}
+
+                            <th>Returns</th>
+                            <th>Edit</th>
+                        {% endif %}
+                    {% if sended %}
+                    <th>Returns</th>
+                    {% endif %}
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for shipment  in all_shipment %}
+
+
+
+                        <tr>
+
+
+                            <td> {{ forloop.counter }}  </td>
+                            <td>
+                                {% if warehouse %}
+                                    <a href="{% url 'shipment_items' shipment.id %}"
+                                       target="_blank">{{ shipment.code }}</a>
+                                {% else %}
+                                    <a href="{% url 'show_shipment_orders' shipment.id %}">{{ shipment.code }}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ shipment.creation_date.date }}</td>
+                            <td><span>$</span><span>{{ shipment.total_price }}</span></td>
+                            {% if shipment.distributeur == None %}
+
+                                <td>
+                                    <form action="">
+                                        {{ form.Distrobuter }}
+                                    </form>
+                                </td>
+
+                            {% else %}
+                                <td class="cart_num">{{ shipment.distributeur.first_name }}
+                                    {{ shipment.distributeur.last_name }}</td>
+                            {% endif %}
+                            <td></td>
+                            <td>{{ shipment.total_box }}</td>
+
+                            {% if shipment.checked_out == True and shipment.checked_out_2 == False and shipment.checked_out_3 == False %}
+                                <td title="Warehouse Functions"><a href="{% url 'shipment_items' shipment.id %}"
+                                                                   target="_blank"><i class='fas fa-dolly'
+                                                                                      style='font-size:18px;color:grey'></i></a>
+                                </td>
+                            {% elif shipment.checked_out_2 == True and shipment.checked_out_3 == False %}
+                                <td title="Sended"><a href="{% url 'shipment_items' shipment.id %}"
+                                                      target="_blank"><i class='fas fa-truck'
+                                                                         style='font-size:18px;color:green'></i></a>
+                                </td>
+                                {% elif shipment.checked_out_3 == True and shipment.checked_out_4 == False  %}
+                        <td title="Warehouse Functions"><a href="{% url 'shipment_items' shipment.id %}"
+                                                                   target="_blank"><i class='fas fa-dolly-flatbed' style='font-size:18px;color: black'></i></a>
+
+
+                            {% elif shipment.checked_out_4 == True and shipment.checked_out_5 == False %}
+                                <td title="accounting"><a href="{% url 'shipment_items' shipment.id %}"
+                                                          target="_blank"><i class='fas fa-cash-register'
+                                                                             style='font-size:18px;color:blue'></i></a>
+                                </td>
+                                {% elif shipment.checked_out_5 == True %}
+                                <td title="settelde"><a href="{% url 'shipment_items' shipment.id %}"
+                                                          target="_blank">
+                                    <i class='far fa-thumbs-up' style='font-size:18px;color:green'></i></a>
+                                </td>
+                            {% else %}
+                                <td title="Wait for warehouse"><a href="{% url 'shipment_items' shipment.id %}"
+                                                                 target="_blank"><i class='fas fa-clipboard-list'
+                                                                                    style='font-size:18px;color:red'></i></a>
+                                </td>
+                            {% endif %}
+                            <td>{{ shipment.warehouse.name }}</td>
+
+                            {% if warehouse and RS %}
+                                <td>
+                                    {% if shipment.checked_out == False %}
+                                        <input type="checkbox" name="{{ shipment.id }}">
+                                    {% else %}
+                                        <input type="checkbox" disabled checked>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if shipment.checked_out == False and shipment.checked_out_2 == False %}
+                                        <span title="Wait for receive"><input type="checkbox" disabled></span>
+                                    {% elif shipment.checked_out == True and shipment.checked_out_2 == False %}
+                                        <input type="checkbox" name="{{ shipment.id }}">
+                                    {% elif shipment.checked_out == True and shipment.checked_out_2 == True %}
+                                        <span style="color: green;cursor: pointer">&#10004</span>
+                                    {% endif %}
+                                </td>
+                                {% elif warehouse %}
+                                <td>
+                                    {% if shipment.shipment_return or shipment.checked_out_4 == True or shipment.total_settle%}
+                                        <input type="checkbox" disabled checked>
+                                        {% else %}
+                                    <input type="checkbox" name="{{ shipment.id }}">
+                                        {% endif %}
+                                </td>
+                            {% else %}
+                             {# this is for over all shipments#}
+                                <td>
+                                    {% if shipment.checked_out == True %}
+                                        <input type="checkbox" disabled>
+                                    {% else %}
+                                        <input type="checkbox" name="{{ shipment.id }}">
+                                    {% endif %}
+                                </td>
+
+
+                            {% endif %}
+
+                            {% if overall or sended  %}
+
+                                <td>
+                                {% if shipment.checked_out_3 == True and shipment.shipment_return %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-success dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            BACKED
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                            <a class="dropdown-item"
+                                               href="{% url 'print_shipment_items-back' shipment.id %}"
+                                               target="_blank">Print</a>
+                                                {% if shipment.checked_out_4 == False  %}
+                                            <a class="dropdown-item"
+                                               href="{% url 'confirm_shipment_items-back' shipment.id %}"
+                                               target="_blank">confirm</a>
+
+                                                    {% endif %}
+
+                                        </div>
+                                    </div>
+                                    {% else %}
+
+                                    <span>No Backed</span>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if overall %}
+                                </td>
+                                <td>
+                                    {% if shipment.checked_out %}
+                                        <span style="color: red">Edit</span>
+                                    {% else %}
+                                        <a href="{% url 'edit_shipment' shipment.id %}">Edit</a>
+                                    {% endif %}
+                                </td>
+                        {% endif %}
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+                {% if warehouse and RS %}
+
+                    <input type="submit" class="btn btn-success" value="Confirm">
+                {% elif warehouse %}
+                    <input type="submit" class="btn btn-danger" value="Send">
+
+                {% else %}
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                {% endif %}
+
+                {% csrf_token %}
+            </form>
+
+        </div>
+
+    </div>
+{% endblock content %}
+
+{% block js %}
+
+
+{% endblock %}

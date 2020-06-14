@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+{% load static %}
+{% load mathfilters %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{% static 'jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'popper.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <link href="{% static 'skeleton.css' %}" rel="stylesheet">
+
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+<p>{{ message|safe }}</p>
+<div style="margin-top:5% "></div>
+    {% for shipment in all_shipment %}
+        <div class="dropdown show">
+  <a style="width: 100%" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <h4>Shipment Number  {{ shipment.code }}</h4>
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%">
+  <a class="dropdown-item" href="#" target="_blank" ><h5>
+      Shipment Final Price = {{ shipment.total_price }} <span style="color: green">|</span>
+      Recived = {{ shipment.total_settle }} <span style="color: green">|</span>
+      <span style="color: {% if shipment.total_price|sub:shipment.total_settle > 0 %}red{% else %}green{% endif %}">
+          Remain = {{ shipment.total_price|sub:shipment.total_settle }}</span></h5>
+  </a><h6>
+    <a class="dropdown-item" href="{% url 'shipment_items' shipment.id %}" target="_blank" >Loaded Items</a>
+    <a class="dropdown-item" href="{% url 'print_shipment_items-back' shipment.id%}" target="_blank">Returns Items</a>
+    <a class="dropdown-item" href="{% url 'show_shipment_orders' shipment.id %}">Orders</a>
+    <a class="dropdown-item" href="{% url 'deliver_confirm_shipment' shipment.id %}">Confirm For Warehouse</a></h6>
+
+
+</div>
+
+    {% endfor %}
+
+</div>
+</body>
+</html>

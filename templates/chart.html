@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block Head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'Chart.bundle.js' %}"></script>
+    <script src="{% static 'Chart.bundle.min.js' %}"></script>
+    <script src="{% static 'Chart_2.js' %}"></script>
+    <script src="{% static 'Chart.min.js' %}"></script>
+
+{% endblock %}
+{% block content %}
+<div class="container">
+<div style="position: relative">
+<select name="" id="select" onchange="chart()">
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+    </select>
+
+    </div>
+<div>
+<canvas id="myChart" style="height: 50%;width: 50% " ></canvas>
+</div>
+
+
+    </div>
+{% endblock %}
+{% block js %}
+<script>
+
+function chart() {
+
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: document.getElementById("select").value,
+    data: {
+        labels: {{ lable|safe }},
+        datasets: [{
+            label: 'Total Order',
+            data: {{ data|safe }},
+            backgroundColor: [
+
+            ],
+            borderColor: [
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {}
+
+});
+console.log( document.getElementById("select").value)}
+
+</script>
+{% endblock %}

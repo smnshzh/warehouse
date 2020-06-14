@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% load mathfilters %} {% load static %} {%block Head%}{%endblock%}{% block content %}
+
+<div class="container">
+
+
+    <div class="row">
+        {% for item in them %}
+        <div class="them">
+            <div class="col" style="border-color: transparent;margin: 80px;">
+                <div class="card" style="width: 18rem; border-color: transparent;">
+
+                    <img class="card-img-top" src="{{ item.image.url}}" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+
+    </div>
+</div>
+{% endblock %}

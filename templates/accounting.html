@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <span class="form-span">
+
+        <form action="{% url 'new_account' %}" class="form-control" method="post">
+        {{ form }}
+            {% csrf_token %}
+        <button class="btn btn-dark btn-success">Submit</button>
+    </form>
+
+    </span>
+{{ a }}
+
+{% endblock %}

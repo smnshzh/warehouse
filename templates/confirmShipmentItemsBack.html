@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="container">
+    <div class="dropdown-divider"></div>
+   <h3> <span >Deliver : {{ shipment.distributeur.first_name }} {{ shipment.distributeur.last_name }}</span>
+
+   <span style="margin-right: 27%;margin-left: 27%">Data : {{ shipment.creation_date.date }}</span>
+       <span>Warehouse : {{ shipment.warehouse.name }}</span>
+   </h3>
+        <table class="table" style="text-align: center">
+            <thead>
+            <tr>
+                <th>Row</th>
+                <th>Code</th>
+                <th>Product</th>
+                <th>Box</th>
+                <th>small quantity</th>
+                <th>Total quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key , value in items.items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                 <td>{{ key.id }}</td>
+                <td>{{ key.name }}</td>
+                <td>{{ value.box }}</td>
+                 <td>{{ value.small }}</td>
+                <td>{{ value.total }}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% if shipment.checked_out_4 == False %}
+        <form action="" method="post">
+            <input type="submit" value="Confirm">
+            {% csrf_token %}
+        </form>
+{% endif %}
+    </div>
+
+
+
+
+
+
+{% endblock %}

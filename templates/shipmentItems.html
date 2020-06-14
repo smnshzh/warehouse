@@ -1,0 +1,66 @@
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ shipment.code }}</title>
+</head>
+<body>
+
+<div style="margin-left: 30%;margin-right: 30%">
+    <div style="margin-bottom: 5%;margin-top: 5%; border-bottom: 1px solid black"><h2>{{ kind }} Code :
+        <strong> {{ shipment.code }}</strong></h2></div>
+    <h3>
+        <div style="margin-bottom: 5%;margin-top: 5%;; border-bottom: 1px solid black;"><span style="margin-right: 10%">Distributer : {{ shipment.distributeur.first_name }} {{ shipment.distributeur.last_name }}</span>
+            <span>Warehouse : {{ shipment.warehouse.name }}</span></div>
+
+    </h3>
+    <h4>
+        <div style="margin-bottom: 5%;">
+            Description : {{ shipment.description }}
+        </div>
+    </h4>
+    <div>
+
+        <h4>
+            <table style="border: 1px solid black;;text-align: center;width: 100%">
+                <thead>
+                <tr>
+                    <th style=" border: 1px solid black;">Row</th>
+                    <th style=" border: 1px solid black;">code</th>
+                    <th style=" border: 1px solid black;">Name</th>
+                    <th style=" border: 1px solid black;">Box</th>
+                    <th style=" border: 1px solid black;">Quantity(Box)</th>
+                    <th style=" border: 1px solid black;">Quantity</th>
+                    {% if confirm %}
+                        <th>box</th>
+                        <th>quantity</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for key , value in items.items %}
+                    <tr>
+                        <td style=" border: 1px solid black;">{{ forloop.counter }}</td>
+                        <td style=" border: 1px solid black;">{{ key.id }}</td>
+                        <td style=" border: 1px solid black;">{{ key.name }}</td>
+                        <td style=" border: 1px solid black;">{{ key.box }}</td>
+                        <td style=" border: 1px solid black;">{{ value|intdiv:key.box }}</td>
+                        <td style=" border: 1px solid black;">{{ value }}</td>
+                        {% if confirm %}
+                            <th><input type="text"></th>
+                            <th><input type="text"></th>
+                        {% endif %}
+
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </h4>
+    </div>
+</div>
+
+</body>
+</html>

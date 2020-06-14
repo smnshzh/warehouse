@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <div class="container">
+
+    {% if order.shipment.checked_out_4 == True and order.shipment.checked_out_5 == False %}
+    <a href="{% url 'accounting_shipment' order.shipment.id %}">Back To Shipment</a>
+    {% elif order.shipment.checked_out_4 == False and order.shipment.checked_out_5 == False %}
+        <a href="{% url 'show_shipment_orders' order.shipment.id %}">Back To Shipment</a>
+        {% elif order.shipment.checked_out_5 == True or order.shipment is None %}
+        <a href="{% url 'settle_invoice' %}">Back Invoices</a>
+    {% endif %}
+        <div>
+            <p style="margin-top: 5%">
+            <div class="inline-group">
+                <h3>{% if order.fianl_code %} {{ order.orderkinde.name|upper }}
+                    Inoice Number : <strong>{{ order.fianl_code }}</strong>{% else %}
+                    Order Number : <strong>{{ order.first_code }}</strong>{% endif %}</h3>
+            </div>
+            </p>
+            <div style="margin-bottom: 5%;margin-top: 2%"><h4>
+                <span>Finall Price : $ {{ order.order_finalPrice }}</span>
+                <apan style="margin-left: 5%">{{ order.settlement.name }}</apan></h4>
+            </div>
+
+        </div>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+               aria-selected="true">Recived</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+               aria-selected="false">Cash</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages"
+               aria-selected="false">Pose</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+               aria-selected="false">Cheque</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content" style="margin-bottom: 10%">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        {% if order.total_settle %}
+            <div style="color:{% if order.total_settle < order.order_finalPrice  %} red{% else %} green{% endif %};
+                    font: bold;margin-top: 5%;margin-bottom: 5%"><h3>Total recived : $ {{ order.total_settle }}</h3></div>
+    <form method="post">
+            <input type="hidden" name="delete" value="delete">
+            <ul style="list-style: none" class="list-group list-group-flush">
+                {% for settle in settles %}
+                <li><h3>{{ settle.name }}</h3></li>
+                <ul style="list-style: none">
+                  {% if reciveds %}
+            {% for recived in reciveds %}
+            {% if recived.settel_kinde == settle %}
+                {% if recived.amount %}
+
+                    <li><h5><input type="checkbox" name="revice_id" value="{{ recived.id }}" style="margin-right: 1%">
+                        Amount: $ {{ recived.amount }}</h5> </li>
+                     {% else %}
+                    <li>Amount: 0</li>
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                </ul>
+
+            {% endfor %}
+ {% else %}
+        <div style="color: red;font: bold;margin-top: 5%;margin-bottom: 5%" ><h3>No Recived</h3></div>
+        {% endif %}
+
+                </ul>
+            <input type="submit" value="Delete">
+        {% csrf_token %}
+        </form>
+        </div>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+            <form action="" id="settle-form" method="post" class="form-inline" style="margin-top: 5%">
+              <input type="number" name="amount1" min="1" step="0.01" placeholder="Received Amount" style="margin-right: 2%">
+
+
+
+        <input type="submit" value="Settle">
+        {% csrf_token %}
+    </form>
+        </div>
+        <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+            <form action="" id="settle-form" method="post"  style="margin-top: 5%">
+            <div class="form-inline">
+                <input type="hidden" name="">
+              <input type="number" name="amount1" min="1" step="0.01" placeholder="Amount" style="margin-right: 2%" aria-placeholder="Received Amount">
+                <select name="bank_pose" id="" style="margin-right: 2%">
+                    {% for bank in access.bank_pose.all %}
+
+                    <option value="{{ bank.id }}"> {{ bank.name }} bank , {{ bank.branch }} </option>
+
+                    {% endfor %}
+                </select>
+
+
+                <input type="number" name="serial" placeholder="Serial Number" style="margin-right: 2%">
+                <input type="date" name="date">
+            </div>
+
+        <div style="margin-top: 2%"><input type="submit" value="Settle"></div>
+        {% csrf_token %}
+    </form>
+        </div>
+        <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+            <form action="" id="settle-form" method="post"  style="margin-top: 5%">
+<div class="form-inline">
+
+              <input type="number" name="amount1" min="1" step="0.01" placeholder="Amount" style="margin-right: 2%" aria-placeholder="Received Amount">
+                <select name="bank" id="" style="margin-right: 2%">
+                    {% for bank in banks %}
+                    <option value="{{ bank.id }}"> {{ bank.name }} Bank  </option>
+                    {% endfor %}
+                </select>
+                <input type="number" name="serial" placeholder="Serial Number">
+                <input type="date"name="usance_date" placeholder="Usance Date" style="margin-left: 2% " class="text_cell_input">
+
+</div>
+        <div style="margin-top: 2%"><input type="submit" value="Settle"></div>
+        {% csrf_token %}
+    </form>
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+    var requiredInput = document.getElementsByTagName('input');
+
+    for (var i = 0;i<requiredInput.length;i++){
+
+        if (requiredInput[i].type === 'text' || requiredInput[i].type === 'number'|| requiredInput[i].type === 'date'  )
+
+        requiredInput[i].required = true
+    }
+
+    </script>
+
+{% endblock %}

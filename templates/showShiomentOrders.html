@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block Head %}
+    <title>{{ Title }}</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+
+            });
+        });
+    </script>
+
+
+
+
+
+{% endblock Head %}
+
+
+
+{% block content %}
+
+    <div class="container">
+
+
+
+ <form action="" method="post">
+
+        <div class="header header_content" style="margin-top: 5%;margin-bottom: 2%;: ">
+
+
+            <h2>
+                <span style="margin-left: 2%">{{ Title }}</span>
+                <span style="margin-left: 25%">Deliver :
+                  {% if edit %}
+                      <select name="deliver" >
+                      {% for deliver in delivery  %}
+
+
+                      <option value="{{ deliver.id }}" {% if shipment.distributeur.id == deliver.id %}selected{% endif %}>
+                          <h5>{{ deliver.first_name }} {{ deliver.last_name }}</h5></option>
+
+                      {% endfor %}
+                      </select>
+
+
+
+                   {% else %}  {{ shipment.distributeur.last_name }}{% endif %}</span>
+            </h2></div>
+
+
+        <div class="container mb-4 mt-3">
+
+            <table id="datatable" class="table table-hover dataTable0" style="text-align: center">
+
+
+                <thead>
+
+                <tr>
+                    <th scope='col'>
+                        {% if edit %}
+                        Delete
+                        {% else %}
+                        Row{% endif %}</th>
+                    <th scope="col" style="cursor: pointer">Code</th>
+                    <th scope="col" style="cursor: pointer">Date</th>
+                    <th scope="col" style="cursor: pointer">Code-Name</th>
+                    <th scope="col" style="cursor: pointer">Address</th>
+                    <th scope="col" style="cursor: pointer">Total Price</th>
+                    <th scope="col" style="cursor: pointer">Pay Method</th>
+                    <th>Visitor</th>
+                    <th scope="col" style="cursor: pointer">Description</th>
+
+
+                </tr>
+                <tbody>
+
+                {% for order  in orders %}
+
+
+                    <tr>
+
+
+                        <td>{% if edit %}
+                            <input type="checkbox" name ="order" value="{{ order.id }}">
+                        {% else %}
+                            <input class="small" type="number"
+                                   name={{ order.id }} {% if order.row != 0 %}
+                                       value={{ order.row }}{% else %} value="{{ forloop.counter }}" {% endif %}
+                                   style="width: 55px">
+                        {% endif %}</td>
+                    {% if access.user.edit_sell_oder == True and order.shipment.checked_out_2 == True and  order.shipment.checked_out_3 == False %}
+
+                    <td><a href="{% url 'delivery_function_on_order_items' order.id %}">{{ order.first_code }}</a></td>
+                    {% else %}
+                        {{ access.user.edit_sell_oder}}
+                        <td><a href="{% url 'static_sell_veiw' order.id %}" target="_blank">{{ order.first_code }}</a></td>
+
+                    {% endif %}
+                        <td>{{ order.creation_date.date }}</td>
+                        <td>{{ order.accountside.id_code }}/{{ order.accountside.name }}</td>
+                        <td>{{ order.accountside.region.city }} - {{ order.accountside.region.local_name }} -
+                            {{ order.accountside.address }}</td>
+
+                        <td><span>$</span><span class="final-price">{{ order.order_finalPrice }}</span></td>
+                    <td><a href="{% url 'settle_order' order.id %}" style="color:{% if order.total_settle >= order.order_totalPrice %}
+                            green {% else %} red{% endif %}">
+                        {{ order.settlement.name }}</a></td>
+                    <td>{{ order.visitor.first_name }} {{ order.visitor.last_name }}</td>
+
+                        <td>
+                            <input class="form-control form-control-lg" type="text" placeholder="description">
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Shipment Total Value</td>
+                <td><span>$</span><span  >{{ shipment.total_price }}</span></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tfoot>
+            </table>
+
+        </div>
+ {% if edit %}
+     <input type="text"
+            style="width: 100%;border: 1px groove green;margin-bottom: 5%"
+            value="{% if shipment.description != None  %}{{ shipment.description }}{% endif %}"
+            placeholder="Description" name="descript">{% endif %}
+<input type="submit" style="margin-bottom: 5%"> {% csrf_token %}</form>
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+
+
+{% endblock %}

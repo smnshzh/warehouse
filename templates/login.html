@@ -1,0 +1,53 @@
+{#{% extends 'base2.html' %}#}
+{% load static %}
+{#    {% block content %}#}
+{#        <div class="centerlize-forms">#}
+{#        <form action="" method="POST" class="form-control">#}
+{#            {% csrf_token %}#}
+{#            {{ form}} <br>#}
+{##}
+{##}
+{#                <input type="submit" class="button-form" value="{{ button }}">#}
+{##}
+{##}
+{#        </form>#}
+{#        </div>#}
+{##}
+{##}
+{#    {% endblock %}#}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <!-- Start: Login Form Dark -->
+    <dic class="container">
+    <div class="login-dark">
+        <form method="post" action="{% url 'login' %} ">
+
+            <h2 class="sr-only">Login Form</h2>
+               <div class="illustration"><i class="icon ion-ios-locked-outline">
+                  <div class="form-group">
+                   {% csrf_token %}
+            {{ form.as_p}}
+           </div>
+               </i></div>
+
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">{{button}}</button></div><a class="forgot" href="#">Forgot your email or password?</a></form>
+    </div>
+    <!-- End: Login Form Dark -->
+</dic>
+</body>
+<script src="{% static 'jquery-3.4.1.slim.min_2.js' %}"></script>
+<script src="{% static 'popper.js' %}"></script>
+<script src="{% static 'bootstrap.min.js' %}"></script>
+<script src="{% static 'java.js' %}"></script>
+
+</html>
