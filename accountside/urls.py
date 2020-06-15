@@ -11,5 +11,6 @@ urlpatterns = [
     path('bank-pose',views.define_bank_pose,name = "define_bank_pose"),
     path('settle-invoice',views.settle_invoice,name = "settle_invoice" ),
     path('confirm-settel',views.confirm_settelmenet,name ="confirm_settelmenet" ),
+    path('confirm-pay-order',views.confirm_pay_order,name = "confirm_pay_order"),
     path("map",views.my_map,name ='map')
 ]

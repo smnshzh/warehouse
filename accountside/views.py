@@ -327,7 +327,7 @@ from UserControl.models import AccsessTo, Access
 
 def confirm_settelmenet(request):
     user = request.user
-    settelments = delivery_settlment.objects.filter (sell_order__isnull=False, user=user, check_out_1=False)
+    settelments = delivery_settlment.objects.filter (sell_order__orderkinde_id=2,sell_order__isnull=False, user=user, check_out_1=False)
     access = Access.objects.get (user=user)
     access_box = access.box.all ( )
     if request.method == "POST":
@@ -346,8 +346,9 @@ def confirm_settelmenet(request):
                         code = DocumentNumber.objects.last ( )
                         last_cod += code.code
                     settle = delivery_settlment.objects.get (id=cash)
-                    if settle.check_out_1 == False:
-                        order = settle.sell_order
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 2:
+
                         cash_journal_number = DocumentNumber.objects.create (createur=user, code=int (last_cod))
                         debtor1 = Document.objects.create (
                             number=cash_journal_number,
@@ -382,7 +383,8 @@ def confirm_settelmenet(request):
             if "cheque" in form.keys ( ):
                 for cheque in form["cheque"]:
                     settle = delivery_settlment.objects.get (id=cheque)
-                    if settle.check_out_1 == False:
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 2:
                         last_cod = 1
                         if DocumentNumber.objects.last ( ):
                             code = DocumentNumber.objects.last ( )
@@ -421,7 +423,8 @@ def confirm_settelmenet(request):
             if "pose" in form.keys ( ):
                 for pose in form["pose"]:
                     settle = delivery_settlment.objects.get (id=pose)
-                    if settle.check_out_1 == False:
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 2:
                         last_cod = 1
                         if DocumentNumber.objects.last ( ):
                             code = DocumentNumber.objects.last ( )
@@ -479,7 +482,7 @@ def confirm_pay_order(request):
         box = Safe_Box.objects.filter (id=box_id).first ( )
         if box in access_box:
             box_account = box.accountside
-            auto_journal = AutoJoournalFields.objects.get (id=3)
+            auto_journal = AutoJoournalFields.objects.get (id=5)
 
             if "cash" in form.keys ( ):
                 for cash in form["cash"]:
@@ -488,7 +491,8 @@ def confirm_pay_order(request):
                         code = DocumentNumber.objects.last ( )
                         last_cod += code.code
                     settle = delivery_settlment.objects.get (id=cash)
-                    if settle.check_out_1 == False:
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 1:
                         order = settle.sell_order
                         cash_journal_number = DocumentNumber.objects.create (createur=user, code=int (last_cod))
                         debtor1 = Document.objects.create (
@@ -497,7 +501,7 @@ def confirm_pay_order(request):
                             detailed_account=order.accountside,
                             debtor=settle.amount,
                             creditor=0,
-                            description=f"Recieved For Invoice {order.fianl_code}"
+                            description=f"Payed For Buy Invoice {order.fianl_code}"
                         )
 
                         creditor1 = Document.objects.create (
@@ -506,7 +510,7 @@ def confirm_pay_order(request):
                             detailed_account= box_account,
                             debtor=0,
                             creditor=settle.amount,
-                            description=f"Payed For Invoice {order.fianl_code}"
+                            description=f"Received For Buy Invoice {order.fianl_code}"
                         )
                         OrderJournalRelation.objects.create (
                             order=order,
@@ -524,7 +528,8 @@ def confirm_pay_order(request):
             if "cheque" in form.keys ( ):
                 for cheque in form["cheque"]:
                     settle = delivery_settlment.objects.get (id=cheque)
-                    if settle.check_out_1 == False:
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 1:
                         last_cod = 1
                         if DocumentNumber.objects.last ( ):
                             code = DocumentNumber.objects.last ( )
@@ -537,9 +542,9 @@ def confirm_pay_order(request):
                             detailed_account=order.accountside,
                             debtor=settle.amount,
                             creditor=0,
-                            description=f"Recieved For Invoice {order.fianl_code}"
+                            description=f"Payed For Invoice {order.fianl_code}"
                                         f"Cheque with serial number {settle.serial_num}"
-                                        f"belongs to {settle.bank.name} Bank"
+                                        f"belongs to {settle.bank_pose.name} Bank"
                         )
 
                         creditor1 = Document.objects.create (
@@ -548,14 +553,14 @@ def confirm_pay_order(request):
                             detailed_account=settle.bank_pose.accountside,
                             debtor=0,
                             creditor=settle.amount,
-                            description=f"Payed For Invoice {order.fianl_code}"
+                            description=f"Payed For Buy Invoice {order.fianl_code}"
                                         f"Cheque with serial number {settle.serial_num}"
-                                        f"belongs to {settle.bank.name} Bank"
+                                        f"belongs to {settle.bank_pose.name} Bank"
                         )
                         OrderJournalRelation.objects.create (
                             order=order,
                             document_number=cheque_journal_number,
-                            descripion=f"For settele invoice {order.fianl_code}"
+                            descripion=f"For settele Buy invoice {order.fianl_code}"
                         )
                         settle.check_out_1 = True
                         settle.save ( )
@@ -563,7 +568,8 @@ def confirm_pay_order(request):
             if "pose" in form.keys ( ):
                 for pose in form["pose"]:
                     settle = delivery_settlment.objects.get (id=pose)
-                    if settle.check_out_1 == False:
+                    order = settle.sell_order
+                    if settle.check_out_1 == False and order.orderkinde.id == 1:
                         last_cod = 1
                         if DocumentNumber.objects.last ( ):
                             code = DocumentNumber.objects.last ( )
@@ -576,7 +582,7 @@ def confirm_pay_order(request):
                             detailed_account= order.accountside,
                             debtor=settle.amount,
                             creditor=0,
-                            description=f"Recieved For Invoice {order.fianl_code}"
+                            description=f"Recieved For Buy Invoice {order.fianl_code}"
                         )
 
                         creditor1 = Document.objects.create (
@@ -590,7 +596,7 @@ def confirm_pay_order(request):
                         OrderJournalRelation.objects.create (
                             order=order,
                             document_number=pose_journal_number,
-                            descripion=f"For settele invoice {order.fianl_code}"
+                            descripion=f"For settele Buy invoice {order.fianl_code}"
                         )
                         settle.check_out_1 = True
                         settle.save ( )
