@@ -1233,7 +1233,9 @@ def settle_order(request, id):
     reciveds = delivery_settlment.objects.filter (sell_order=order)
     settles = settlement.objects.all ( )
 
-    if order.orderkinde.id == 2 and order.shipment.checked_out_3 == False or access.accounting_after_return == True:
+    if order.orderkinde.id == 2 and order.shipment.checked_out_3 == False\
+            or order.orderkinde.id == 2 and access.accounting_after_return == True or \
+            order.orderkinde.id == 1 and access.make_pay_order == True :
 
         if request.method == "POST":
             form = dict (request.POST)
@@ -1278,15 +1280,26 @@ def settle_order(request, id):
                     user=user
                 )
             elif len (form) == 4 and "usance_date" in form :
-                delivery_settlment.objects.create (
-                    sell_order=order,
-                    amount=form["amount1"][0],
-                    settel_kinde=settlement.objects.get (id=3),
-                    bank=BankCheck.objects.get (id=form["bank"][0]),
-                    serial_num=form["serial"][0],
-                    usance_date=form["usance_date"][0],
-                    user=user
-                )
+                if order.orderkinde == 2:
+                    delivery_settlment.objects.create (
+                        sell_order=order,
+                        amount=form["amount1"][0],
+                        settel_kinde=settlement.objects.get (id=3),
+                        bank=BankCheck.objects.get (id=form["bank"][0]),
+                        serial_num=form["serial"][0],
+                        usance_date=form["usance_date"][0],
+                        user=user
+                    )
+                elif  order.orderkinde == 1:
+                    delivery_settlment.objects.create (
+                        sell_order=order,
+                        amount=form["amount1"][0],
+                        settel_kinde=settlement.objects.get (id=3),
+                        bank_pose=BankPose.objects.get (id=form["bank_pose"][0]),
+                        serial_num=form["serial"][0],
+                        usance_date=form["usance_date"][0],
+                        user=user
+                    )
 
         context = {
             "order": order,

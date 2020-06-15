@@ -29,7 +29,8 @@ class Access(models.Model):
     all_shipment_view = models.BooleanField(default=False)
     accounting_after_return = models.BooleanField(default=False)
 
-
+    confirm_pay_order = models.BooleanField(default=False)
+    make_pay_order = models.BooleanField(default=False)
 
 
     def __str__(self):

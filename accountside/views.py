@@ -467,7 +467,147 @@ def confirm_settelmenet(request):
 
     return render (request, "confirmSettelmets.html", context)
 
+def confirm_pay_order(request):
+    user = request.user
+    settelments = delivery_settlment.objects.filter (sell_order__orderkinde_id=1,sell_order__isnull=False, user=user, check_out_1=False)
+    access = Access.objects.get (user=user)
+    access_box = access.box.all ( )
+    if request.method == "POST" and access.confirm_pay_order:
 
+        form = dict (request.POST)
+        box_id = form["Box"][0]
+        box = Safe_Box.objects.filter (id=box_id).first ( )
+        if box in access_box:
+            box_account = box.accountside
+            auto_journal = AutoJoournalFields.objects.get (id=3)
+
+            if "cash" in form.keys ( ):
+                for cash in form["cash"]:
+                    last_cod = 1
+                    if DocumentNumber.objects.last ( ):
+                        code = DocumentNumber.objects.last ( )
+                        last_cod += code.code
+                    settle = delivery_settlment.objects.get (id=cash)
+                    if settle.check_out_1 == False:
+                        order = settle.sell_order
+                        cash_journal_number = DocumentNumber.objects.create (createur=user, code=int (last_cod))
+                        debtor1 = Document.objects.create (
+                            number=cash_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.debt_code),
+                            detailed_account=order.accountside,
+                            debtor=settle.amount,
+                            creditor=0,
+                            description=f"Recieved For Invoice {order.fianl_code}"
+                        )
+
+                        creditor1 = Document.objects.create (
+                            number=cash_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.credit_code),
+                            detailed_account= box_account,
+                            debtor=0,
+                            creditor=settle.amount,
+                            description=f"Payed For Invoice {order.fianl_code}"
+                        )
+                        OrderJournalRelation.objects.create (
+                            order=order,
+                            document_number=cash_journal_number,
+                            descripion=f"For settele invoice {order.fianl_code}"
+                        )
+                        settle.check_out_1 = True
+                        settle.save ( )
+
+                    else:
+                        context = {
+                            "message": messages.warning (request,
+                                                         "<h5 style='color:red'>this settlement confirmed BEFORE</h5>")
+                        }
+            if "cheque" in form.keys ( ):
+                for cheque in form["cheque"]:
+                    settle = delivery_settlment.objects.get (id=cheque)
+                    if settle.check_out_1 == False:
+                        last_cod = 1
+                        if DocumentNumber.objects.last ( ):
+                            code = DocumentNumber.objects.last ( )
+                            last_cod += code.code
+                        order = settle.sell_order
+                        cheque_journal_number = DocumentNumber.objects.create (createur=user, code=int (last_cod))
+                        debtor1 = Document.objects.create (
+                            number=cheque_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.debt_code_3),
+                            detailed_account=order.accountside,
+                            debtor=settle.amount,
+                            creditor=0,
+                            description=f"Recieved For Invoice {order.fianl_code}"
+                                        f"Cheque with serial number {settle.serial_num}"
+                                        f"belongs to {settle.bank.name} Bank"
+                        )
+
+                        creditor1 = Document.objects.create (
+                            number=cheque_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.credit_code_3),
+                            detailed_account=settle.bank_pose.accountside,
+                            debtor=0,
+                            creditor=settle.amount,
+                            description=f"Payed For Invoice {order.fianl_code}"
+                                        f"Cheque with serial number {settle.serial_num}"
+                                        f"belongs to {settle.bank.name} Bank"
+                        )
+                        OrderJournalRelation.objects.create (
+                            order=order,
+                            document_number=cheque_journal_number,
+                            descripion=f"For settele invoice {order.fianl_code}"
+                        )
+                        settle.check_out_1 = True
+                        settle.save ( )
+
+            if "pose" in form.keys ( ):
+                for pose in form["pose"]:
+                    settle = delivery_settlment.objects.get (id=pose)
+                    if settle.check_out_1 == False:
+                        last_cod = 1
+                        if DocumentNumber.objects.last ( ):
+                            code = DocumentNumber.objects.last ( )
+                            last_cod += code.code
+                        order = settle.sell_order
+                        pose_journal_number = DocumentNumber.objects.create (createur=user, code=int (last_cod))
+                        debtor1 = Document.objects.create (
+                            number=pose_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.debt_code_2),
+                            detailed_account= order.accountside,
+                            debtor=settle.amount,
+                            creditor=0,
+                            description=f"Recieved For Invoice {order.fianl_code}"
+                        )
+
+                        creditor1 = Document.objects.create (
+                            number=pose_journal_number,
+                            difinit_account=DifinitAccounts.objects.get (code=auto_journal.credit_code_2),
+                            detailed_account=settle.bank_pose.accountside,
+                            debtor=0,
+                            creditor=settle.amount,
+                            description=f"Payed For Invoice {order.fianl_code}"
+                        )
+                        OrderJournalRelation.objects.create (
+                            order=order,
+                            document_number=pose_journal_number,
+                            descripion=f"For settele invoice {order.fianl_code}"
+                        )
+                        settle.check_out_1 = True
+                        settle.save ( )
+
+        else:
+            context = {
+                "message": messages.warning (request, f"You Do Not Access To {box.name}")
+            }
+
+    context = {
+        "cashs": settelments.filter (settel_kinde__code=1),
+        "poses": settelments.filter (settel_kinde__code=2),
+        "cheques": settelments.filter (settel_kinde__code=3),
+        "access_box": access_box,
+    }
+
+    return render (request, "confirmSettelmets.html", context)
 def my_map(request):
     geos = GeoAccount.objects.all ( )
 
