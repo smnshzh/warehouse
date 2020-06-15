@@ -100,8 +100,6 @@
             <div class="form-inline">
                 <input type="hidden" name="">
               <input type="number" name="amount1" min="1" step="0.01" placeholder="Amount" style="margin-right: 2%" aria-placeholder="Received Amount">
-
-
                 <select name="bank_pose" id="" style="margin-right: 2%">
                     {% for bank in access.bank_pose.all %}
 
@@ -125,22 +123,11 @@
 <div class="form-inline">
 
               <input type="number" name="amount1" min="1" step="0.01" placeholder="Amount" style="margin-right: 2%" aria-placeholder="Received Amount">
-
-    {% if order.orderkinde.id == 1 %}
-<select name="bank_pose" id="" style="margin-right: 2%">
-                    {% for bank in access.bank_pose.all %}
-
-                    <option value="{{ bank.id }}"> {{ bank.name }} bank , {{ bank.branch }} </option>
-
-                    {% endfor %}
-                </select>
-{% else %}
-    <select name="bank" id="" style="margin-right: 2%">
+                <select name="bank" id="" style="margin-right: 2%">
                     {% for bank in banks %}
                     <option value="{{ bank.id }}"> {{ bank.name }} Bank  </option>
                     {% endfor %}
                 </select>
-{% endif %}
                 <input type="number" name="serial" placeholder="Serial Number">
                 <input type="date"name="usance_date" placeholder="Usance Date" style="margin-left: 2% " class="text_cell_input">
 
