@@ -32,9 +32,7 @@ def accountside_show(request):
     return render (request, 'accounsidsedetail.html', context)
 
 
-from faker import Faker
-import random
-from datetime import datetime
+
 from cart.models import *
 
 
