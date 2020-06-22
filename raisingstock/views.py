@@ -209,11 +209,11 @@ def warehouse_confirm_buy_back(request, id=None):
 def deconfirm_buy_back(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
-    warhouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
+    warehouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
 
     selected_order = Order.objects.get (id=id)
-    selected_buy_items = OrderItem.objects.filter (order_id=id)
-    if selected_order.warhouse.id in warhouse_list and selected_order.checked_out_2 == False:
+    selected_buy_items = OrderItem.objects.filter (order_id=id,order__warhouse_id__in = warehouse_list)
+    if selected_order.warhouse.id in warehouse_list and selected_order.checked_out_2 == False:
 
         for item in selected_buy_items:
             falling_stock = item.quantity

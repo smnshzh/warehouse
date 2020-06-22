@@ -188,6 +188,7 @@ def modify_sell_view(request):
 
 @can_access_warehouse
 def show_order_items(request, id):
+
     add_form = request.POST
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -206,7 +207,6 @@ def show_order_items(request, id):
 
     selected_order_items = OrderItem.objects.filter (order_id=id)
     products_name_list = [item.product.name for item in selected_order_items]
-    print (products_name_list)
 
     if request.method == "POST":
         if not order.shipment:
@@ -345,7 +345,8 @@ def show_order_items(request, id):
         'tik': 1,
         'order_id': id,
         'add_form': add_form,
-        "sell": 1
+        "sell": 1,
+        "title": "Sell"
 
     }
 

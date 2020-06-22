@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accountside/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accountside/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SCM/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Warehouse/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Warehouse/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raisingstock/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/raisingstock/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/buy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buy.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,17 +44,17 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Untitled Folder/untitled2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Ordinateure\Cloned Project\Warehouse0.01\Warehouse\templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Ordinateure\Cloned Project\Warehouse0.01\Warehouse\templates\css" />
       <recent name="D:\Ordinateure\Cloned Project\Warehouse0.01\Warehouse\templates\imge" />
       <recent name="D:\Ordinateure\Cloned Project\Warehouse0.01\Warehouse\Shop" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Ordinateure\Cloned Project\Warehouse0.01\Warehouse\templates" />
     </key>
   </component>
   <component name="RunManager" selected="Python.sitesdata">
@@ -132,7 +137,9 @@
       <workItem from="1591981955556" duration="77000" />
       <workItem from="1591982079274" duration="692000" />
       <workItem from="1592230880056" duration="4131000" />
-      <workItem from="1592484183736" duration="4483000" />
+      <workItem from="1592484183736" duration="11867000" />
+      <workItem from="1592643392930" duration="9769000" />
+      <workItem from="1592806986270" duration="575000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -152,7 +159,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۰۳" />
       <updated>1592488536481</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL‎۰۰۰۰۴" summary="change in confirm pay order">
+      <created>1592563732643</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۴" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۴" />
+      <updated>1592563732643</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,10 +176,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="change in confirm pay order" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1592488524026">
+    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1592563721753">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1592488524026" />
+    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1592563721753" />
+    <state x="462" y="105" key="FileChooserDialogImpl" timestamp="1592643553358">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="462" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1592643553358" />
     <state x="537" y="239" key="Github.ShareDialog" timestamp="1592243252368">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -199,10 +216,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="449" y="85" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1592246016433" />
-    <state x="184" y="0" key="SettingsEditor" timestamp="1591881861870">
+    <state x="184" y="0" key="SettingsEditor" timestamp="1592750760958">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1591881861870" />
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592750760958" />
     <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1592243707441">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -211,10 +228,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="492" y="280" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1592228707398" />
-    <state x="303" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1590521096539">
+    <state x="303" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1592725023170">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="303" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1590521096539" />
+    <state x="303" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1592725023170" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Warehouse$sitesdata.coverage" NAME="sitesdata Coverage Results" MODIFIED="1590666096848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/PycharmProjects/myhtml/datamining" />

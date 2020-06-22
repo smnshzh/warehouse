@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'background_task',
     'mathfilters',
-    'chartjs',
     
 ]
 

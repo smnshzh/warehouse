@@ -680,8 +680,7 @@ def return_report(request):
 
 
 # =================== CHART ===================================================
-from django.views.generic import TemplateView
-from chartjs.views.lines import BaseLineChartView
+
 import pandas as pd
 from datetime import datetime
 
