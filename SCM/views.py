@@ -298,7 +298,7 @@ def confirm_shipment_items_back(request, id):
 
     return render (request, "confirmShipmentItemsBack.html", context)
 @login_required (login_url='login')
-@can_deliver_confirm_shipment
+@can_deliver_edit_orders
 def deliver_confirm_shipment(request, id):
     user = request.user
     access = AccsessTo.objects.get (user__user=user)

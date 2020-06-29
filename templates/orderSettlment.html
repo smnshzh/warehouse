@@ -51,8 +51,10 @@
     <div class="tab-content" style="margin-bottom: 10%">
         <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
         {% if order.total_settle %}
-            <div style="color:{% if order.total_settle < order.order_finalPrice  %} red{% else %} green{% endif %};
-                    font: bold;margin-top: 5%;margin-bottom: 5%"><h3>Total recived : $ {{ order.total_settle }}</h3></div>
+            <div style="color:{% if order.total_settle >= order.order_finalPrice|floatformat:2  %}
+                red{% else %}
+                green{% endif %}
+                    ;margin-top: 5%;margin-bottom: 5%"><h3>Total recived : $ {{ order.total_settle }}</h3></div>
     <form method="post">
             <input type="hidden" name="delete" value="delete">
             <ul style="list-style: none" class="list-group list-group-flush">

@@ -93,9 +93,11 @@
 
                             <td> {{ forloop.counter }}  </td>
                             <td>
-                                {% if warehouse %}
+                                {% if warehouse and all_access.view_shipment_items %}
                                     <a href="{% url 'shipment_items' shipment.id %}"
                                        target="_blank">{{ shipment.code }}</a>
+                                  {% elif warehouse  %}
+                                      {{ shipment.code }}
                                 {% else %}
                                     <a href="{% url 'show_shipment_orders' shipment.id %}">{{ shipment.code }}</a>
                                 {% endif %}

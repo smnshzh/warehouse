@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block Head %}
+    {% load mathfilters %}
     <title>{{ Title }}</title>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -72,7 +73,7 @@
 
         <div class="container mb-4 mt-3">
 
-            <table id="datatable" class="table table-hover dataTable0" style="text-align: center">
+            <table id="datatable" class="table table-hover dataTable" style="text-align: center">
 
 
                 <thead>
@@ -110,11 +111,10 @@
                                        value={{ order.row }}{% else %} value="{{ forloop.counter }}" {% endif %}
                                    style="width: 55px">
                         {% endif %}</td>
-                    {% if access.user.edit_sell_oder == True and order.shipment.checked_out_2 == True and  order.shipment.checked_out_3 == False %}
+                    {% if access.user.edit_sell_oder == True and order.shipment.checked_out_2 == True and  order.shipment.checked_out_3 == False or access.user.deliver_edit_orders and order.shipment.checked_out_2 == True and  order.shipment.checked_out_3 == False %}
 
                     <td><a href="{% url 'delivery_function_on_order_items' order.id %}">{{ order.first_code }}</a></td>
                     {% else %}
-                        {{ access.user.edit_sell_oder}}
                         <td><a href="{% url 'static_sell_veiw' order.id %}" target="_blank">{{ order.first_code }}</a></td>
 
                     {% endif %}
@@ -124,9 +124,11 @@
                             {{ order.accountside.address }}</td>
 
                         <td><span>$</span><span class="final-price">{{ order.order_finalPrice }}</span></td>
-                    <td><a href="{% url 'settle_order' order.id %}" style="color:{% if order.total_settle >= order.order_totalPrice %}
-                            green {% else %} red{% endif %}">
-                        {{ order.settlement.name }}</a></td>
+                    <td><a href="{% url 'settle_order' order.id %}" style="color:{% if order.total_settle >= order.order_finalPrice|floatformat:2  %}
+                red{% else %}
+                green{% endif %}
+                    ;margin-top: 5%;margin-bottom: 5%">
+                        {{ order.settlement.name }}</a> {{ order.total_settle|floatformat:4|sub:order.order_finalPrice|floatformat:4 }} </td>
                     <td>{{ order.visitor.first_name }} {{ order.visitor.last_name }}</td>
 
                         <td>

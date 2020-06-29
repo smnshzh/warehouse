@@ -64,8 +64,9 @@ def sell(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warhouse_list = [item for item in user_warehouse_access.warehouse.all ( )]
-    access_to_visitor = AccsessTo.objects.get(user__user=user)
-    access_to_visitor_list = [visitor for visitor in access_to_visitor.visitor.all() if "visitor" in [group.name for group in visitor.groups.all()]]
+    access_to_visitor = AccsessTo.objects.get (user__user=user)
+    access_to_visitor_list = [visitor for visitor in access_to_visitor.visitor.all ( ) if
+                              "visitor" in [group.name for group in visitor.groups.all ( )]]
 
     if request.method == "POST":
         form = dict (request.POST)
@@ -135,7 +136,7 @@ def sell(request):
         "title": "New Sell Order",
         "warehouses": warhouse_list,
         "sell": 1,
-        "visitors":access_to_visitor_list
+        "visitors": access_to_visitor_list
 
     }
 
@@ -147,10 +148,11 @@ def sell(request):
 def modify_sell_view(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
-    visitor_access = AccsessTo.objects.get(user__user_id=user.id)
-    visitor_access_list = [visitor for visitor in visitor_access.visitor.all()]
+    visitor_access = AccsessTo.objects.get (user__user_id=user.id)
+    visitor_access_list = [visitor for visitor in visitor_access.visitor.all ( )]
     warehouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
-    order_set = Order.objects.filter (checked_out=False, warhouse_id__in=warehouse_list, orderkinde_id=2,visitor__in=visitor_access_list)
+    order_set = Order.objects.filter (checked_out=False, warhouse_id__in=warehouse_list, orderkinde_id=2,
+                                      visitor__in=visitor_access_list)
     modifyCart = OrderItem.objects.filter (order__checked_out=False, order__orderkinde_id=2)
 
     form = request.POST
@@ -192,12 +194,11 @@ def modify_sell_view(request):
 
     return render (request, 'modified.html', context)
 
+
 @login_required (login_url='login')
 @can_access_warehouse
 @can_confirm_sell_order
 def show_order_items(request, id):
-
-
     add_form = request.POST
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -365,6 +366,8 @@ def show_order_items(request, id):
     }
 
     return render (request, 'invoicing.html', context)
+
+
 @login_required (login_url='login')
 @can_make_sell_order
 def static_sell_veiw(request, id):
@@ -382,6 +385,8 @@ def static_sell_veiw(request, id):
     }
 
     return render (request, "staticView.html", context)
+
+
 @login_required (login_url='login')
 @can_make_sell_back
 def new_sell_back_order(request):
@@ -402,13 +407,13 @@ def new_sell_back_order(request):
                 return PermissionDenied
             form.pop ("warehouse")
             last_first_code = 0
-            if Order.objects.filter (orderkinde_id=4).order_by("first_code").last ( ):
+            if Order.objects.filter (orderkinde_id=4).order_by ("first_code").last ( ):
                 last_find = Order.objects.filter (orderkinde_id=4).last ( )
                 last_first_code = last_find.first_code
             sell_back_order = Order.objects.create (creation_date=datetime.now ( ), user_craeter=user,
-                                              accountside=selected_accountside, warhouse=warhouse_model_select,
-                                              orderkinde=OrderKinde.objects.get (code=4),
-                                              first_code=last_first_code + 1)
+                                                    accountside=selected_accountside, warhouse=warhouse_model_select,
+                                                    orderkinde=OrderKinde.objects.get (code=4),
+                                                    first_code=last_first_code + 1)
             for item in form.values ( ):
                 product = Product.objects.filter (name=item[0]).first ( )
                 inventory = Inventory.objects.filter (product=product, warehouse=WareHouseDefinde.objects.filter (
@@ -437,13 +442,15 @@ def new_sell_back_order(request):
         "warehouses": warehouse_list,
     }
     return render (request, "invoicing.html", context)
+
+
 @login_required (login_url='login')
 @can_make_sell_back
 def show_sell_back_orders(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warehouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
-    orders = Order.objects.filter (warhouse_id__in=warehouse_list, orderkinde_id=4,checked_out_2=False)
+    orders = Order.objects.filter (warhouse_id__in=warehouse_list, orderkinde_id=4, checked_out_2=False)
     if request.method == "POST":
         form = dict (request.POST)
         form.pop ("csrfmiddlewaretoken")
@@ -464,6 +471,7 @@ def show_sell_back_orders(request):
     }
 
     return render (request, "buyorder.html", context)
+
 
 @login_required (login_url='login')
 @can_make_buy_order
@@ -522,14 +530,13 @@ def new_buy_order(request):
     return render (request, "invoicing.html", context)
 
 
-
 @login_required (login_url='login')
 @can_show_buy_orders
 def show_buy_orders(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warehouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
-    orders = Order.objects.filter (warhouse_id__in=warehouse_list, orderkinde_id=1,checked_out_2=False)
+    orders = Order.objects.filter (warhouse_id__in=warehouse_list, orderkinde_id=1, checked_out_2=False)
     if request.method == "POST":
         form = dict (request.POST)
         form.pop ("csrfmiddlewaretoken")
@@ -653,6 +660,7 @@ def show_buy_order_items(request, id):
 
     return render (request, "invoicing.html", context)
 
+
 @login_required (login_url='login')
 @can_make_buy_back
 def buy_back(request):
@@ -743,6 +751,8 @@ def remove_order(request, order_id):
     }
 
     return redirect ('modify_sell_view')
+
+
 @login_required (login_url='login')
 @can_confirm_sell_order
 def send_for_scm(request, order_id):
@@ -761,6 +771,8 @@ def send_for_scm(request, order_id):
         #      user_modifier = user,
         #      )
     return redirect ('modify_cart_view')
+
+
 @login_required (login_url='login')
 @can_show_buy_back
 def show_buy_back(request):
@@ -793,6 +805,7 @@ def show_buy_back(request):
 
 from UserControl.forms import Disrobuter
 
+
 @login_required (login_url='login')
 @can_make_shipment
 def make_shipment(request):
@@ -812,17 +825,12 @@ def make_shipment(request):
 
     if request.method == "POST" and shipment["Add"][0]:
 
-
         shipment.pop ("csrfmiddlewaretoken")
         for item in shipment["sid"]:
             if item:
-
-                oid = item[0:item.find("t")]
-                sid = item[item.find("t")+1:item.find("s")]
-                add_order_to_shipment(request,int(oid),int(sid))
-
-
-
+                oid = item[0:item.find ("t")]
+                sid = item[item.find ("t") + 1:item.find ("s")]
+                add_order_to_shipment (request, int (oid), int (sid))
 
         return redirect ("make_shipment")
 
@@ -830,7 +838,7 @@ def make_shipment(request):
         print (shipment)
         shipment.pop ("csrfmiddlewaretoken")
         shipment.pop ("Add")
-        if "sid" in shipment.keys():
+        if "sid" in shipment.keys ( ):
             shipment.pop ("sid")
         distrobuter = User.objects.get (id=shipment["Distrobuter"][0])
         shipment.pop ("Distrobuter")
@@ -905,6 +913,7 @@ def make_shipment(request):
 
     return render (request, 'modified.html', context)
 
+
 @login_required (login_url='login')
 @can_show_shipment_orders
 def show_shipment_orders(request, id):
@@ -935,6 +944,8 @@ def show_shipment_orders(request, id):
 
     else:
         raise PermissionDenied
+
+
 @login_required (login_url='login')
 @can_edit_shipment
 def edit_shipment(request, id):
@@ -986,6 +997,7 @@ def edit_shipment(request, id):
     else:
         raise PermissionDenied
 
+
 @login_required (login_url='login')
 @can_edit_shipment
 def add_order_to_shipment(request, oid, sid):
@@ -1010,6 +1022,7 @@ def add_order_to_shipment(request, oid, sid):
         context = {
             "message": messages.warning (request, f"Different Warhouses")
         }
+
 
 @login_required (login_url='login')
 @can_deliver_confirm_shipment
@@ -1246,6 +1259,7 @@ def delivery_function_on_order_items(request, id):
     else:
         raise PermissionDenied
 
+
 @login_required (login_url='login')
 @can_settel_order
 def settle_order(request, id):
@@ -1258,9 +1272,9 @@ def settle_order(request, id):
     reciveds = delivery_settlment.objects.filter (sell_order=order)
     settles = settlement.objects.all ( )
 
-    if order.orderkinde.id == 2 and order.shipment.checked_out_3 == False\
-            or order.orderkinde.id == 2 and access.accounting_after_return == True or \
-            order.orderkinde.id == 1 and access.make_pay_order == True :
+    if order.orderkinde.id == 2 and order.shipment.checked_out_3 == False \
+            or order.orderkinde.id == 2 and access.accounting_after_return and access.settle_invoice or \
+            order.orderkinde.id == 1 and access.make_pay_order == True and access.settle_invoice:
 
         if request.method == "POST":
             form = dict (request.POST)
@@ -1274,7 +1288,7 @@ def settle_order(request, id):
                             selected.delete ( )
                         else:
                             context = {
-                                "message":messages.warning(request,"This settlment was confirmed !!")
+                                "message": messages.warning (request, "This settlment was confirmed !!")
                             }
 
                 except:
@@ -1290,10 +1304,6 @@ def settle_order(request, id):
                     user=user
                 )
 
-
-
-
-
             elif len (form) == 4 and "bank_pose" in form:
                 delivery_settlment.objects.create (
                     sell_order=order,
@@ -1304,8 +1314,9 @@ def settle_order(request, id):
                     serial_num=form["serial"][0],
                     user=user
                 )
-            elif len (form) == 4 and "usance_date" in form :
-                if order.orderkinde == 2:
+            elif len (form) == 4 and "usance_date" in form:
+                print(form)
+                if order.orderkinde.id == 2:
                     delivery_settlment.objects.create (
                         sell_order=order,
                         amount=form["amount1"][0],
@@ -1315,7 +1326,7 @@ def settle_order(request, id):
                         usance_date=form["usance_date"][0],
                         user=user
                     )
-                elif  order.orderkinde == 1:
+                elif order.orderkinde.id == 1:
                     delivery_settlment.objects.create (
                         sell_order=order,
                         amount=form["amount1"][0],
@@ -1340,19 +1351,16 @@ def settle_order(request, id):
         raise PermissionDenied
 
 
-
-
 def date_to(request):
     blank = []
 
-    orders = Order.objects.filter (checked_out_2=True,orderkinde__code= 1)
+    orders = Order.objects.filter (checked_out_2=True, orderkinde__code=1)
     for order in orders:
-        print(order.id)
+        print (order.id)
         journal = OrderJournalRelation.objects.filter (order=order).first ( )
         date = journal.document_number.creation_date
         order.data_convert_invoice = date
-        order.save()
+        order.save ( )
         blank.append (order.id)
-
 
     return redirect ('index')

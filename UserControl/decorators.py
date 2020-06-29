@@ -313,6 +313,7 @@ def can_settel_order(function):
         else:
             raise PermissionDenied
 
+    return wrap
 
 def can_make_sell_back(function):
     def wrap(request, *args, **kwargs):
@@ -511,6 +512,20 @@ def can_deliver_confirm_shipment(function):
             raise PermissionDenied
 
     return wrap
+def can_deliver_edit_orders(function):
+    def wrap(request, *args, **kwargs):
+
+        user = request.user
+        access = Access.objects.get (user=user)
+
+        if access.deliver_edit_orders:
+            return function (request, *args, **kwargs)
+
+        else:
+            raise PermissionDenied
+
+    return wrap
+
 
 def can_accounting_after_return(function):
     def wrap(request, *args, **kwargs):

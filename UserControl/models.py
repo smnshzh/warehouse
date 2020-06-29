@@ -11,12 +11,10 @@ class Access(models.Model):
     orderkind = models.ManyToManyField(OrderKinde)
     bank_pose = models.ManyToManyField(BankPose)
     box = models.ManyToManyField(Safe_Box)
-
     register = models.BooleanField (default=False)
     product_views = models.BooleanField (default=False)
     products_detail = models.BooleanField (default=False)
     auto_inventory_maker = models.BooleanField (default=False)
-
     make_buy_order = models.BooleanField(default=False)
     show_buy_orders = models.BooleanField(default=False)
     show_confirmed_buy = models.BooleanField(default=False)
@@ -25,10 +23,8 @@ class Access(models.Model):
     delete_buy_order = models.BooleanField(default=False)
     see_confirmed_buy = models.BooleanField(default=False)
     deconfirm_buy_order = models.BooleanField(default=False)
-
     make_buy_back = models.BooleanField(default=False)
     show_buy_back = models.BooleanField(default=False)
-
     warhouse_confirm_buy_back = models.BooleanField(default=False)
     deconfirm_buy_back = models.BooleanField(default=False)
     make_sell_order = models.BooleanField(default=False)
@@ -52,6 +48,7 @@ class Access(models.Model):
     cancle_sending = models.BooleanField(default=False)
     all_shipment_view = models.BooleanField(default=False)
     deliver_confirm_shipment = models.BooleanField(default=False)
+    deliver_edit_orders = models.BooleanField(default=False)
     accounting_after_return = models.BooleanField(default=False)
     see_shipment_ready_for_accounting = models.BooleanField(default=False)
     accounting_shipment = models.BooleanField(default=False)

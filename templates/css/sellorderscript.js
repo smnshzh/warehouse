@@ -85,7 +85,7 @@ function return_sumOfTotalPrice() {
     var sumTotalPrice = Number(0);
     for (var i = 0; i < tpClass.length; i++) {
         sumTotalPrice += Number(tpClass[i].value);
-        document.getElementById("som_of_total_price").innerHTML = sumTotalPrice
+        document.getElementById("som_of_total_price").innerHTML = (sumTotalPrice).toFixed(2)
     }
 }
 
@@ -151,7 +151,7 @@ function price_getter(number) {
     if (price !== undefined) {
 
         var final_price_sell_order = parseFloat(price) * ((100.00 - parseFloat(influanceOff)) / 100) * ((100.00 + parseFloat(vat)) / 100) * Number(quantityElementValue);
-        totalPriceElement.value = final_price_sell_order.toFixed(2)
+        totalPriceElement.value = Math.round(final_price_sell_order)
     } else {
         priceElement.value = "";
         totalPriceElement.value = "";
