@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +140,7 @@
       <workItem from="1592910665951" duration="1103000" />
       <workItem from="1592987163706" duration="1811000" />
       <workItem from="1593408827568" duration="576000" />
-      <workItem from="1593411114556" duration="29620000" />
+      <workItem from="1593411114556" duration="30062000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -191,7 +190,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۰۸" />
       <updated>1593463605800</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL‎۰۰۰۰۹" summary="caccess test 2">
+      <created>1593465272098</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۹" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۹" />
+      <updated>1593465272098</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,10 +210,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="caccess test 2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1593463595783">
+    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1593465269448">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593463595783" />
+    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593465269448" />
     <state x="462" y="105" key="FileChooserDialogImpl" timestamp="1592912915835">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
