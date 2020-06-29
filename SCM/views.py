@@ -10,8 +10,10 @@ from django.contrib import messages
 from UserControl.models import Access
 from UserControl.forms import *
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+from UserControl.decorators import *
 
-
+@login_required (login_url='login')
 def shipment_overall(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -49,7 +51,8 @@ def shipment_overall(request):
 
     return render (request, 'manageShipments.html', context)
 
-
+@login_required (login_url='login')
+@can_recieve_and_send_shipments
 def recieve_and_send_shipments(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -63,11 +66,11 @@ def recieve_and_send_shipments(request):
         for key in form.keys ( ):
             selected_shipment = Shipment.objects.get (id=key)
             warehouse = selected_shipment.warehouse
-            if selected_shipment.checked_out == False:
+            if selected_shipment.checked_out == False and user_warehouse_access.recieve_shipments:
                 selected_shipment.checked_out = True
                 selected_shipment.save ( )
                 return redirect ("recieve_and_send_shipments")
-            if selected_shipment.checked_out == True and selected_shipment.checked_out_2 == False:
+            if selected_shipment.checked_out == True and selected_shipment.checked_out_2 == False and user_warehouse_access.send_shipments:
 
                 items = OrderItem.objects.filter (order__shipment_id=key)
 
@@ -98,7 +101,8 @@ def recieve_and_send_shipments(request):
 
     return render (request, 'manageShipments.html', context)
 
-
+@login_required (login_url='login')
+@can_cancle_sending
 def cancle_sending(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -148,8 +152,8 @@ def cancle_sending(request):
     }
 
     return render (request, 'manageShipments.html', context)
-
-
+@login_required (login_url='login')
+@can_view_shipment_items
 def shipment_items(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -185,8 +189,8 @@ def shipment_items(request, id):
     }
 
     return render (request, "shipmentItems.html", context)
-
-
+@login_required (login_url='login')
+@can_view_shipment_items_backed
 def print_shipment_items_back(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -228,8 +232,8 @@ def print_shipment_items_back(request, id):
     }
 
     return render (request, "shipmentItems.html", context)
-
-
+@login_required (login_url='login')
+@can_confirm_shipment_items_backed
 def confirm_shipment_items_back(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -293,8 +297,8 @@ def confirm_shipment_items_back(request, id):
     }
 
     return render (request, "confirmShipmentItemsBack.html", context)
-
-
+@login_required (login_url='login')
+@can_deliver_confirm_shipment
 def deliver_confirm_shipment(request, id):
     user = request.user
     access = AccsessTo.objects.get (user__user=user)
@@ -336,7 +340,8 @@ def deliver_confirm_shipment(request, id):
 
             return redirect ("deliver_shipment_view")
 
-
+@login_required (login_url='login')
+@can_deliver_confirm_shipment
 def deliver_shipment_view(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -355,8 +360,8 @@ def deliver_shipment_view(request):
     }
 
     return render (request, 'deliverConfirmation.html', context)
-
-
+@login_required (login_url='login')
+@can_accounting_shipment
 def show_shipments_ready_for_accounting(request):
     shipments = Shipment.objects.filter (checked_out_2=True)
     context = {
@@ -384,8 +389,8 @@ def show_shipments_ready_for_accounting(request):
 
 
 
-
-
+@login_required (login_url='login')
+@can_accounting_shipment
 def accounting_shipment(request, id):
 
     form = dict(request.POST)
@@ -621,6 +626,8 @@ def accounting_shipment(request, id):
 
 # ======================REPORTS================================================
 
+@login_required (login_url='login')
+@can_sell_sended_order_report
 def sell_sended_order_report(request):
     sended_order = OrderItemBackup.objects.all ( )
 
@@ -630,7 +637,8 @@ def sell_sended_order_report(request):
 
     return render (request, "sendedOrdersReport.html", context)
 
-
+@login_required (login_url='login')
+@can_invoices_report
 def invoices_report(request):
 
     invoices = Order.objects.filter(fianl_code__isnull=False,orderkinde=2)
@@ -642,7 +650,8 @@ def invoices_report(request):
 
     return render(request,"invoivesReport.html",context)
 
-
+@login_required (login_url='login')
+@can_invoices_report
 def invoices_product_report(request):
 
     items = OrderItem.objects.filter(order__fianl_code__isnull=False,order__orderkinde=2)
@@ -653,6 +662,8 @@ def invoices_product_report(request):
 
     return render(request,"products.html",context)
 
+@login_required (login_url='login')
+@can_settled_shipment_reports
 def settletd_shipment_report(request,id):
 
     shipment = Shipment.objects.get(id = id)
@@ -669,7 +680,8 @@ def settletd_shipment_report(request,id):
 
     return render(request,"settledShipmentReport.html",context)
 
-
+@login_required (login_url='login')
+@can_invoices_report
 def return_report(request):
 
     back_up = OrderItemBackup.objects.all()
@@ -686,7 +698,8 @@ from datetime import datetime
 
 
 
-
+@login_required (login_url='login')
+@can_invoices_report
 def chart(request):
     order = Order.objects.filter(orderkinde_id=2).order_by("creation_date").first()
     datelist = pd.date_range (order.creation_date, periods=19).tolist ( )

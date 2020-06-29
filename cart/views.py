@@ -22,6 +22,7 @@ import json
 from Shop.views import product_off_step_finder
 from decimal import *
 from UserControl.models import *
+from UserControl.decorators import *
 from django.core.exceptions import PermissionDenied
 
 
@@ -139,6 +140,7 @@ def sell(request):
 
 
 @login_required (login_url='login')
+@can_make_shipment
 def modify_sell_view(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -185,8 +187,9 @@ def modify_sell_view(request):
 
     return render (request, 'modified.html', context)
 
-
+@login_required (login_url='login')
 @can_access_warehouse
+@can_confirm_sell_order
 def show_order_items(request, id):
 
     add_form = request.POST
@@ -351,8 +354,8 @@ def show_order_items(request, id):
     }
 
     return render (request, 'invoicing.html', context)
-
-
+@login_required (login_url='login')
+@can_make_sell_order
 def static_sell_veiw(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -368,8 +371,8 @@ def static_sell_veiw(request, id):
     }
 
     return render (request, "staticView.html", context)
-
-
+@login_required (login_url='login')
+@can_make_sell_back
 def new_sell_back_order(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -388,8 +391,8 @@ def new_sell_back_order(request):
                 return PermissionDenied
             form.pop ("warehouse")
             last_first_code = 0
-            if Order.objects.filter (orderkinde_id=4).last ( ):
-                last_find = Order.objects.filter (orderkinde_id=1).last ( )
+            if Order.objects.filter (orderkinde_id=4).order_by("first_code").last ( ):
+                last_find = Order.objects.filter (orderkinde_id=4).last ( )
                 last_first_code = last_find.first_code
             sell_back_order = Order.objects.create (creation_date=datetime.now ( ), user_craeter=user,
                                               accountside=selected_accountside, warhouse=warhouse_model_select,
@@ -423,7 +426,8 @@ def new_sell_back_order(request):
         "warehouses": warehouse_list,
     }
     return render (request, "invoicing.html", context)
-
+@login_required (login_url='login')
+@can_make_sell_back
 def show_sell_back_orders(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -450,7 +454,8 @@ def show_sell_back_orders(request):
 
     return render (request, "buyorder.html", context)
 
-
+@login_required (login_url='login')
+@can_make_buy_order
 def new_buy_order(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -507,8 +512,8 @@ def new_buy_order(request):
 
 
 
-
-
+@login_required (login_url='login')
+@can_show_buy_orders
 def show_buy_orders(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -523,7 +528,7 @@ def show_buy_orders(request):
                 order.delete ( )
             else:
                 context = {
-                    "message": messages.warning (request, f"for deleting buy order number {order.first_code} "
+                    "message": messages.warning (request, f"for deleting order number {order.first_code} "
                                                           f"warehous should deconfirm "
                                                           f"that ")
                 }
@@ -537,6 +542,8 @@ def show_buy_orders(request):
 
 
 @can_access_warehouse
+@login_required (login_url='login')
+@can_show_buy_orders
 def show_buy_order_items(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -635,7 +642,8 @@ def show_buy_order_items(request, id):
 
     return render (request, "invoicing.html", context)
 
-
+@login_required (login_url='login')
+@can_make_buy_back
 def buy_back(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -724,8 +732,8 @@ def remove_order(request, order_id):
     }
 
     return redirect ('modify_sell_view')
-
-
+@login_required (login_url='login')
+@can_confirm_sell_order
 def send_for_scm(request, order_id):
     form = SendToWarehouseForm (request.POST or None)
 
@@ -742,8 +750,8 @@ def send_for_scm(request, order_id):
         #      user_modifier = user,
         #      )
     return redirect ('modify_cart_view')
-
-
+@login_required (login_url='login')
+@can_show_buy_back
 def show_buy_back(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -774,7 +782,8 @@ def show_buy_back(request):
 
 from UserControl.forms import Disrobuter
 
-
+@login_required (login_url='login')
+@can_make_shipment
 def make_shipment(request):
     form = Disrobuter
     user = request.user
@@ -885,7 +894,8 @@ def make_shipment(request):
 
     return render (request, 'modified.html', context)
 
-
+@login_required (login_url='login')
+@can_show_shipment_orders
 def show_shipment_orders(request, id):
     selected_shipment = Shipment.objects.get (id=id)
     user = request.user
@@ -914,8 +924,8 @@ def show_shipment_orders(request, id):
 
     else:
         raise PermissionDenied
-
-
+@login_required (login_url='login')
+@can_edit_shipment
 def edit_shipment(request, id):
     user = request.user
 
@@ -965,7 +975,8 @@ def edit_shipment(request, id):
     else:
         raise PermissionDenied
 
-
+@login_required (login_url='login')
+@can_edit_shipment
 def add_order_to_shipment(request, oid, sid):
     shipment = Shipment.objects.get (id=sid)
     order = Order.objects.get (id=oid)
@@ -989,7 +1000,8 @@ def add_order_to_shipment(request, oid, sid):
             "message": messages.warning (request, f"Different Warhouses")
         }
 
-
+@login_required (login_url='login')
+@can_deliver_confirm_shipment
 def delivery_function_on_order_items(request, id):
     user = request.user
     order = Order.objects.get (id=id)
@@ -1223,7 +1235,8 @@ def delivery_function_on_order_items(request, id):
     else:
         raise PermissionDenied
 
-
+@login_required (login_url='login')
+@can_settel_order
 def settle_order(request, id):
     user = request.user
     order = Order.objects.get (id=id)

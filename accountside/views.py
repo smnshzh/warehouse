@@ -5,8 +5,11 @@ from raisingstock.models import *
 from accountside.models import *
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+from UserControl.decorators import *
 
-
+@login_required (login_url='login')
+@can_make_new_account
 def new_account(request):
     form = accountside_form (request.POST or None)
 
@@ -21,7 +24,8 @@ def new_account(request):
     }
     return render (request, 'accounting.html', context)
 
-
+@login_required (login_url='login')
+@can_show_accountside
 def accountside_show(request):
     accountsides = accountside.objects.all ( )
 
@@ -47,7 +51,8 @@ def random_maker(request):
 
     return redirect ("new_account")
 
-
+@login_required (login_url='login')
+@can_making_journal
 def making_journal(request):
     title = "Making Journal"
     form = request.POST
@@ -60,7 +65,8 @@ def making_journal(request):
 
     return render (request, 'journaling.html', context)
 
-
+@login_required (login_url='login')
+@can_auto_journal
 def making_all_journal(request):
     title = " Auto Journal"
     account = 1
@@ -256,7 +262,8 @@ def making_all_journal(request):
 
     return render (request, "buyorder.html", context)
 
-
+@login_required (login_url='login')
+@can_show_journals
 def show_journals(request):
     journals = Document.objects.all ( )
     sum_debt = sum ([journal.debtor for journal in journals])
@@ -269,9 +276,11 @@ def show_journals(request):
 
     return render (request, 'journals.html', context)
 
-
+@login_required (login_url='login')
+@can_defind_banck_pose
 def define_bank_pose(request):
     banks = BankPose.objects.all ( )
+    regions = local_id_def.objects.all()
 
     if request.method == "POST":
         form = dict (request.POST)
@@ -279,7 +288,8 @@ def define_bank_pose(request):
         account = accountside.objects.create (
             id_code=int (form["code"][0]),
             name=f"{form['name'][0]} bank {form['branch'][0]}",
-            region=local_id_def.objects.first ( )
+            region=local_id_def.objects.get(id = int(form["region"][0])),
+            telephonnumber=form["tel"]
 
         )
         account.kind.add (4)
@@ -293,12 +303,14 @@ def define_bank_pose(request):
         )
 
     context = {
-        "banks": banks
+        "banks": banks,
+        "regions":regions,
     }
 
     return render (request, "defindeBanckPose.html", context)
 
-
+@login_required (login_url='login')
+@can_settle_invoice
 def settle_invoice(request):
     invoices = Order.objects.filter (fianl_code__isnull=False, orderkinde_id__in=[1, 2])
 
@@ -322,7 +334,8 @@ def settle_invoice(request):
 
 from UserControl.models import AccsessTo, Access
 
-
+@login_required (login_url='login')
+@can_confirm_settlment
 def confirm_settelmenet(request):
     user = request.user
     settelments = delivery_settlment.objects.filter (sell_order__orderkinde_id=2,sell_order__isnull=False, user=user, check_out_1=False)
@@ -467,7 +480,8 @@ def confirm_settelmenet(request):
     }
 
     return render (request, "confirmSettelmets.html", context)
-
+@login_required (login_url='login')
+@can_confirm_pay_order
 def confirm_pay_order(request):
     user = request.user
     settelments = delivery_settlment.objects.filter (sell_order__orderkinde_id=1,sell_order__isnull=False, user=user, check_out_1=False)
@@ -612,6 +626,8 @@ def confirm_pay_order(request):
     }
 
     return render (request, "confirmSettelmets.html", context)
+@login_required (login_url='login')
+@can_show_accountside
 def my_map(request):
     geos = GeoAccount.objects.all ( )
 

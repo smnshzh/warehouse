@@ -63,81 +63,117 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only"></span></a>
                 </li>
+            {% if all_access.make_buy_order or all_access.make_buy_back or all_access.show_buy_orders or all_access.show_confirmed_buy %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Buy 
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
+                                                {% if all_access.make_buy_order %}
                         <a class="dropdown-item" href="{% url 'new_buy_order' %}">Buy Order</a>
-
-                        <a class="dropdown-item" href="{% url 'buy_back' %}">Buy Back </a>
-                        <a class="dropdown-item" href="{% url 'show_buy_orders' %}">Show Buy Orders</a>
+                        {% endif %}
+                    {% if all_access.show_buy_orders %}
+                        <a class="dropdown-item" href="{% url 'show_buy_orders' %}">Show Buy Orders</a>{% endif %}
                          <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'show_confirmed_buy' %}">Buy Invoice</a>
-
+                        {% if  all_access.make_buy_back %}
+                        <a class="dropdown-item" href="{% url 'buy_back' %}">Buy Back </a>{% endif %}
+                    <a class="dropdown-item" href="{% url 'show_buy_back' %}">Show Buy Back </a>
+                     <div class="dropdown-divider"></div>
+                    {% if all_access.show_confirmed_buy %}
+                        <a class="dropdown-item" href="{% url 'show_confirmed_buy' %}">Buy Invoice</a>{% endif %}
                     </div>
                 </li>
-
+                {% endif %}
+            {% if all_access.make_sell_order or all_access.edit_sell_oder or all_access.confirm_sell_order or all_access.make_sell_back or all_access.show_sell_back_orders %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sell 
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'sell' %}">New Sell Order</a>
-                        <a class="dropdown-item" href="{% url 'modify_sell_view' %}">Confirm/Edit Orders</a>
+                        {% if all_access.make_sell_order %}
+                        <a class="dropdown-item" href="{% url 'sell' %}">New Sell Order</a>{% endif %}
+                    {% if all_access.edit_sell_oder or all_access.confirm_sell_order %}
+                        <a class="dropdown-item" href="{% url 'modify_sell_view' %}">Confirm/Edit Orders</a>{% endif %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'new_sell_back_order' %}">New Sell Back</a>
-                        <a class="dropdown-item" href="{% url 'show_sell_back_orders' %}">Show Sell Backs</a>
+                    {% if all_access.make_sell_back %}
+                        <a class="dropdown-item" href="{% url 'new_sell_back_order' %}">New Sell Back</a>{% endif %}
+                      {% if all_access.show_sell_back_orders %}
+                        <a class="dropdown-item" href="{% url 'show_sell_back_orders' %}">Show Sell Backs</a>{% endif %}
 
                     </div>
                 </li>
+            {% endif %}
+            {% if all_access.make_shipment or all_access.all_shipment_view %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Shipment
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'make_shipment' %}">Make Shipments</a>
-                        <a class="dropdown-item" href="{% url 'shipment_overall' %}">Shipment OverAll</a>
+                        {% if all_access.make_shipment %}
+                        <a class="dropdown-item" href="{% url 'make_shipment' %}">Make Shipments</a>{% endif %}
+                    {% if all_access.all_shipment_view %}
+                        <a class="dropdown-item" href="{% url 'shipment_overall' %}">Shipment OverAll</a>{% endif %}
                         <div class="dropdown-divider"></div>
                     </div>
                 </li>
-
+                {% endif %}
+            {% if all_access.recieve_shipments or all_access.send_shipments or all_access.cancle_sending or all_access.product_views or all_access.confirm_buy_order or all_access.deconfirm_buy_order or all_access.confirm_sell_back or all_access.warhouse_confirm_buy_back %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Warehouse
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if all_access.recieve_shipments or all_access.send_shipments %}
                         <a class="dropdown-item" href="{% url 'recieve_and_send_shipments' %}">Shipments R&S</a>
-                        <a class="dropdown-item" href="{% url 'cancle_sending' %}">Sended Shipments</a>
-                        <a class="dropdown-item" href=""></a>
+                        {% endif %}
+                    {% if all_access.cancle_sending %}
+                        <a class="dropdown-item" href="{% url 'cancle_sending' %}">Sended Shipments</a>{% endif %}
                         <div class="dropdown-divider"></div>
-                         <a class="dropdown-item" href="{% url "product_views" %}">Products</a>
-                        <div class="dropdown-divider">Buy</div>
-                        <a class="dropdown-item" href="{% url 'warehouse_confirm_buy_order' %}">Confirm\Deconfirm Buy&Sell-Back </a>
-                        <a class="dropdown-item" href="{% url 'warehouse_confirm_buy_back' %}">Confirm\Deconfirm Buy Back</a>
+                    {% if all_access.product_views  %}
+                         <a class="dropdown-item" href="{% url "product_views" %}">Products</a>{% endif %}
+                        <div class="dropdown-divider"></div>
+                    {% if all_access.confirm_buy_order or all_access.deconfirm_buy_order or all_access.confirm_sell_back %}
+                        <a class="dropdown-item" href="{% url 'warehouse_confirm_buy_order' %}">
+                            Confirm\Deconfirm {% if all_access.confirm_buy_order or all_access.deconfirm_buy_order %}Buy{% endif %}
+                            {% if all_access.confirm_buy_order or all_access.deconfirm_buy_order and all_access.confirm_sell_back  %}&{% endif %}
+                            {% if  all_access.confirm_sell_back %}Sell-Back {% endif %}
+                        </a>{% endif %}
+                    {% if all_access.warhouse_confirm_buy_back %}
+                        <a class="dropdown-item" href="{% url 'warehouse_confirm_buy_back' %}">Confirm\Deconfirm Buy Back</a>{% endif %}
 
                     </div>
                 </li>
+            {% endif %}
+            {% if all_access.confirm_settelmenet or all_access.confirm_pay_order or all_access.settle_invoice or all_access.show_shipments_ready_for_accounting or all_access.make_new_account or all_access.show_accountside or all_access.making_journal or all_access.show_journals or all_access.auto_journal %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Accounting
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'confirm_settelmenet' %}">Confirm Settlments</a>
-                         <a class="dropdown-item" href="{% url 'confirm_pay_order' %}">Confirm Pay Order</a>
-                        <a class="dropdown-item" href="{% url 'settle_invoice' %}">Settle Invoices</a>
-                        <a class="dropdown-item" href="{% url 'show_shipments_ready_for_accounting' %}">Settle Shipments</a>
+                        {% if all_access.confirm_settelmenet %}
+                        <a class="dropdown-item" href="{% url 'confirm_settelmenet' %}">Confirm Settlments</a>{% endif %}
+                    {% if all_access.confirm_pay_order %}
+                         <a class="dropdown-item" href="{% url 'confirm_pay_order' %}">Confirm Pay Order</a>{% endif %}
+                    {% if all_access.settle_invoice %}
+                        <a class="dropdown-item" href="{% url 'settle_invoice' %}">Settle Invoices</a>{% endif %}
+                    {% if all_access.show_shipments_ready_for_accounting %}
+                        <a class="dropdown-item" href="{% url 'show_shipments_ready_for_accounting' %}">Settle Shipments</a>{% endif %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'new_account' %}">New Account</a>
-                        <a class="dropdown-item" href="{% url 'accountside_show' %}">Show Accounts</a>
+                    {% if all_access.make_new_account %}
+                        <a class="dropdown-item" href="{% url 'new_account' %}">New Account</a>{% endif %}
+                    {% if all_access.show_accountside %}
+                        <a class="dropdown-item" href="{% url 'accountside_show' %}">Show Accounts</a>{% endif %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'making_journal' %}">New Journal</a>
-                        <a class="dropdown-item" href="{% url 'show_journals' %}">Show Journals</a>
-                        <a class="dropdown-item" href="{% url 'auto_journal' %}">Auto Journal</a>
+                    {% if all_access.making_journal %}
+                        <a class="dropdown-item" href="{% url 'making_journal' %}">New Journal</a>{% endif %}
+                    {% if all_access.show_journals %}
+                        <a class="dropdown-item" href="{% url 'show_journals' %}">Show Journals</a>{% endif %}
+                    {% if all_access.auto_journal %}
+                        <a class="dropdown-item" href="{% url 'auto_journal' %}">Auto Journal</a>{% endif %}
 
                     </div>
                 </li>
+            {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Delivery
@@ -155,6 +191,7 @@
                     Setting
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
                         <a class="dropdown-item" href="{% url 'define_bank_pose' %}">Define Bank Pose </a>
                         <a class="dropdown-item" href=""></a>
 
@@ -169,7 +206,9 @@
                     Reports
                 </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if 2 in all_access.orderkind.all %}
                         <a class="dropdown-item" href="{% url 'sell_sended_order_report' %}">Sended Orders </a>
+                        {% endif %}
                         <a class="dropdown-item" href="{% url 'invoices_report' %}">Invoices Report</a>
                         <a class="dropdown-item" href="{% url 'invoices_product_report' %}">Sold Products</a>
                         <a class="dropdown-item" href="{% url 'map' %}">Accounts on Map</a>

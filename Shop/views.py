@@ -12,6 +12,7 @@ from random import *
 from raisingstock.models import *
 from django.contrib import messages
 from UserControl.models import *
+from UserControl.decorators import *
 
 def product_off_step_finder(product_off_id,quantity):
 
@@ -28,6 +29,8 @@ def product_off_step_finder(product_off_id,quantity):
     if quantity >= selected_product_off.minQ_4 and quantity < selected_product_off.maxQ_4:
         return selected_product_off.off_persentage_4
 
+
+@can_product_view
 @login_required (login_url='login')
 def product_views(request):
     user = request.user
@@ -47,6 +50,7 @@ def product_views(request):
 
 
 @login_required (login_url='login')
+@can_products_detail
 def product_detail(request, id):
     product = Product.objects.get (id=id)
     maincategory = FirstCategory.objects.all ( )
@@ -61,6 +65,7 @@ def product_detail(request, id):
     return render (request, 'products.html', context)
 
 @login_required (login_url='login')
+@can_products_detail
 def sub_category(request, sub):
     products = Product.objects.filter (slug=sub)
 
@@ -70,7 +75,7 @@ def sub_category(request, sub):
 
     return render (request, 'index.html', context)
 
-
+@login_required (login_url='login')
 def index (request):
 
     page = them.objects.all ( )
@@ -119,8 +124,8 @@ def randomData(request):
     }
 
     return render(request,'table.html',context)
-
-
+@login_required (login_url='login')
+@can_auto_inventory_maker
 def auto_inventory_maker(request):
     slelect_all_products = Product.objects.all()
     select_all_warehouse = WareHouseDefinde.objects.last()
@@ -147,7 +152,8 @@ def auto_inventory_maker(request):
     }
 
     return render(request,'inventory.html',context)
-
+@login_required (login_url='login')
+@can_products_detail
 def cartext(request,id):
 
     inventory = Inventory.objects.get(id = id)

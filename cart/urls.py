@@ -18,6 +18,7 @@ urlpatterns = [
     path("show-Buy-Order-items/<int:id>",views.show_buy_order_items,name = "show_buy_order_items"),
     # start buy-back fumctions =============End of Buy functions
     path("new-buy-back",views.buy_back,name = "buy_back"),
+    path("show-buy-back-orders",views.show_buy_back,name ="show_buy_back" ),
     path('order/delete/<int:order_id>',views.remove_order,name='remove_order'),
     path('send-for-supply-chain-managment/<int:order_id>',views.send_for_scm,name='send_for_scm'),
     #========= Start Shipment Functions ===================================

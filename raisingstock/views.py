@@ -8,8 +8,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from UserControl.models import *
 from cart.models import *
 from cart.views import can_access_warehouse
+from UserControl.decorators import *
+from django.contrib.auth.decorators import login_required
 
-
+@login_required (login_url='login')
+@can_confirm_buy_order
 def warehouse_confirm_buy_order(request, id=None):
     form = dict (request.POST)
     user = request.user
@@ -48,7 +51,8 @@ def warehouse_confirm_buy_order(request, id=None):
 
     return render (request, 'buyorder.html', context)
 
-
+@login_required (login_url='login')
+@can_delete_buy_order
 def delete_buy_order(request):
     form = dict (request.POST)
     if request.method == "POST":
@@ -78,7 +82,8 @@ def delete_buy_order(request):
 
     return redirect ('show_buy_orders')
 
-
+@login_required (login_url='login')
+@can_show_confirmed_buy
 def show_confirmed_buy(request):
     confirmed = 1
     confirm_buy = Order.objects.filter (checked_out_2=True, orderkinde_id=1).order_by ("fianl_code")
@@ -92,6 +97,7 @@ def show_confirmed_buy(request):
     return render (request, 'buyorder.html', context)
 
 @can_access_warehouse
+@can_deconfirm_buy_order
 def deconfirm_buy_order(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
@@ -151,6 +157,8 @@ def deconfirm_buy_order(request, id):
         return redirect ("warehouse_confirm_buy_order")
     return redirect ("warehouse_confirm_buy_order")
 
+@login_required (login_url='login')
+@can_warhouse_confirm_buy_back
 def warehouse_confirm_buy_back(request, id=None):
     form = dict (request.POST)
     user = request.user
@@ -206,6 +214,8 @@ def warehouse_confirm_buy_back(request, id=None):
     return render (request, 'buyorder.html', context)
 
 @can_access_warehouse
+@login_required (login_url='login')
+@can_deconfirm_buy_back
 def deconfirm_buy_back(request, id):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )

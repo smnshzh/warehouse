@@ -262,7 +262,7 @@ class Inventory (models.Model):
         for item in items:
             quantity += item.quantity
 
-        yield quantity
+        return quantity
 
     order_back_quantity=property(order_back_quantity)
 

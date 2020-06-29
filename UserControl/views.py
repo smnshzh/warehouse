@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib.auth import authenticate, get_user_model, login, logout
- 
-# Create your views here.
+from .decorators import *
+
+
 def logIn(request):
     next = request.GET.get ('next')
     form = UserLoginForms (request.POST or None)
@@ -22,7 +23,7 @@ def logIn(request):
     }
     return render (request, 'login.html', context)
 
-
+@can_register
 def register(request):
     # print(request.user.is_authenticated())
     form = UserRegisterForm (request.POST or None)

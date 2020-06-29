@@ -3,25 +3,36 @@
 {% load static %}
 
 {% block content %}
-    <div class="inline">
 
 
-    <div class="inline-group"   style="margin-left: 25%  ">
-        <span style="border: 1px groove black;margin-right:25%  " ></span>
-        <form action="" method="post">
-       <div class="inline-group"> <label for="">Bank Code</label> <input type="text" name="code"></div>
-     <div class="inline-group"><label for="">Bank Name</label> <input type="text" name="name"></div>
-    <div class="inline-group"> <label for="">Bank Branch</label> <input type="text" name="branch"></div>
-            {% csrf_token %}
-        <input type="submit" style="margin-top: 5%">
-            </form>
-    </div>
-<div style="margin-left:5% ">
-<ul class="list-group-item">
-    {% for bank in banks %}
-    <li>{{ bank.name }} bank, {{ bank.branch }} branch</li>
-    {% endfor %}
+
+    <div class="container">
+    <div style="margin-top: 5%;margin-bottom: 5%">
+        <form action="" method="post" >
+<ul class="form-inline" style="list-style: none">
+          <li>  <label style="margin-right: 2%">Bank Code   <input type="text" name="code" s></label></li>
+         <li><label style="margin-right: 2%;margin-left: 2%">Bank Name   <input type="text" name="name" ></label></li>
+          <li> <label style="margin-right: 2%;margin-left: 2%">Bank Branch   <input type="text" name="branch" ></label></li>
+           <li><label style="margin-right: 2%">Tel Phone   <input type="text" name="tel" ></label></li>
+
+           <li><select class="select-open" name="region" id="" style="margin-right: 2%">
+                {% for region in regions %}
+                    <option value="{{ region.id }}">{{ region.city }} - {{ region.local_name }}</option>
+                {% endfor %}
+            </select></li>
 </ul>
-</div>
-</div>
+            {% csrf_token %}
+           <div style="margin-top: 5%"> <input type="submit" value="Submit"></div>
+        </form>
+    </div>
+
+        <div style="margin-left:5% ">
+        <h5>Banks List</h5>
+            <ol class="box-group1">
+                {% for bank in banks %}
+                    <li>{{ bank.name }} bank, {{ bank.branch }} branch</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 {% endblock %}

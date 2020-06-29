@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="">
+    <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="change in confirm pay order">
+      <change afterPath="$PROJECT_DIR$/UserControl/decorators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SCM/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/context_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/context_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserControl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Warehouse/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Warehouse/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountside/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accountside/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/raisingstock/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/raisingstock/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/buy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/buy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/defindeBanckPose.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/defindeBanckPose.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +30,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -44,7 +53,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Untitled Folder/untitled2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -139,7 +148,14 @@
       <workItem from="1592230880056" duration="4131000" />
       <workItem from="1592484183736" duration="11867000" />
       <workItem from="1592643392930" duration="9769000" />
-      <workItem from="1592806986270" duration="575000" />
+      <workItem from="1592806986270" duration="7102000" />
+      <workItem from="1592814713158" duration="4131000" />
+      <workItem from="1592830620142" duration="4848000" />
+      <workItem from="1592839713885" duration="3893000" />
+      <workItem from="1592910665951" duration="1103000" />
+      <workItem from="1592987163706" duration="1811000" />
+      <workItem from="1593408827568" duration="576000" />
+      <workItem from="1593411114556" duration="13508000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -165,7 +181,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۰۴" />
       <updated>1592563732643</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL‎۰۰۰۰۵" summary="change in confirm pay order">
+      <created>1592807693438</created>
+      <option name="number" value="LOCAL‎۰۰۰۰۵" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۰۵" />
+      <updated>1592807693438</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,14 +198,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="change in confirm pay order" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1592563721753">
+    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1592809565670">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1592563721753" />
-    <state x="462" y="105" key="FileChooserDialogImpl" timestamp="1592643553358">
+    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1592809565670" />
+    <state x="462" y="105" key="FileChooserDialogImpl" timestamp="1592912915835">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="462" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1592643553358" />
+    <state x="462" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1592912915835" />
     <state x="537" y="239" key="Github.ShareDialog" timestamp="1592243252368">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -216,10 +238,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="449" y="85" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1592246016433" />
-    <state x="184" y="0" key="SettingsEditor" timestamp="1592750760958">
+    <state x="184" y="0" key="SettingsEditor" timestamp="1592830219242">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592750760958" />
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592830219242" />
     <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1592243707441">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
