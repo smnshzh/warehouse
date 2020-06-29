@@ -645,6 +645,7 @@ def invoices_report(request):
 
 
     context = {
+        "title": "Sold Invoices Report",
         "invoices":invoices
     }
 

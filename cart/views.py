@@ -64,6 +64,8 @@ def sell(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warhouse_list = [item for item in user_warehouse_access.warehouse.all ( )]
+    access_to_visitor = AccsessTo.objects.get(user__user=user)
+    access_to_visitor_list = [visitor for visitor in access_to_visitor.visitor.all() if "visitor" in [group.name for group in visitor.groups.all()]]
 
     if request.method == "POST":
         form = dict (request.POST)
@@ -133,6 +135,7 @@ def sell(request):
         "title": "New Sell Order",
         "warehouses": warhouse_list,
         "sell": 1,
+        "visitors":access_to_visitor_list
 
     }
 
@@ -144,8 +147,10 @@ def sell(request):
 def modify_sell_view(request):
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
+    visitor_access = AccsessTo.objects.get(user__user_id=user.id)
+    visitor_access_list = [visitor for visitor in visitor_access.visitor.all()]
     warehouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
-    order_set = Order.objects.filter (checked_out=False, warhouse_id__in=warehouse_list, orderkinde_id=2)
+    order_set = Order.objects.filter (checked_out=False, warhouse_id__in=warehouse_list, orderkinde_id=2,visitor__in=visitor_access_list)
     modifyCart = OrderItem.objects.filter (order__checked_out=False, order__orderkinde_id=2)
 
     form = request.POST
@@ -192,9 +197,14 @@ def modify_sell_view(request):
 @can_confirm_sell_order
 def show_order_items(request, id):
 
+
     add_form = request.POST
     user = request.user
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
+    access_to_visitor = AccsessTo.objects.get (user__user=user)
+    access_to_visitor_list = [visitor for visitor in access_to_visitor.visitor.all ( ) if
+                              "visitor" in [group.name for group in visitor.groups.all ( )]]
+
     tik = 1
     sell = 1
 
@@ -349,7 +359,8 @@ def show_order_items(request, id):
         'order_id': id,
         'add_form': add_form,
         "sell": 1,
-        "title": "Sell"
+        "title": "Sell",
+        "visitors": access_to_visitor_list
 
     }
 

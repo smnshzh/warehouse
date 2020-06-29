@@ -47,11 +47,13 @@
                     <div style="margin-right: 75px">
 
                         {% if sell and not delivery %}
-                            <input type="text" style="float: right" id="visitor"
-                                   value="{{ order.visitor.first_name }} {{ order.visitor.last_name }}"
-                                   placeholder="Visitor" onchange="get_visitor_id()">
-                            <input type="hidden" name="visitor" class="visitor_id" id="visitor_id"
-                                   value="{{ order.visitor.id }}">
+                            <select type="hidden" name="visitor" class="visitor_id" id="visitor_id" style="float: right">
+                            {% for visitor in visitors %}
+                                {% if visitor.id != 1  %}
+                                <option value="{{ visitor.id }}">{{ visitor.first_name }} {{ visitor.last_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
                         {% endif %}
                     </div>
                     <div style="margin-right : 8%;margin-left: 8%">
@@ -73,10 +75,10 @@
                         {% endif %}
 
 
-                        <input id="suplier" type="text" name="" placeholder="Customer Name" required
+                       <input id="suplier" type="text" name="" placeholder="Customer Name" required
                                class="input-group-text" onkeyup="accountside_info()"
                                onchange="accountside_info()" onmousemove="accountside_info()"
-                               value="{{ order.accountside.id_code }}-{{ order.accountside.name }}">
+                               value="{{ order.accountside.id_code }}-{{ order.accountside.name }}" style="margin-left: 40%;margin-right: 50% ">
                         <input type="hidden" name="customer_id" class="customer_id" id="customer_id"
                                value="{{ order.accountside.id }}">
                     </div>
