@@ -1,11 +1,8 @@
 from django import forms
 from django.contrib.auth import (authenticate
 , get_user_model)
+
 from .models import *
-from django.forms.widgets import TextInput,NumberInput
-
-
-
 
 User = get_user_model ( )
 
@@ -70,4 +67,7 @@ class Disrobuter(forms.Form):
     Distrobuter = forms.TypedChoiceField(choices= CHOICES)
 
 
-
+class AccessForm (forms.ModelForm):
+    class Meta:
+        model = Access
+        fields = "__all__"
