@@ -6,10 +6,10 @@ from raisingstock.models import *
 
 class Access(models.Model):
     user = models.OneToOneField (User, on_delete=models.CASCADE, unique=True)
-    warehouse = models.ManyToManyField (WareHouseDefinde)
-    orderkind = models.ManyToManyField (OrderKinde)
-    bank_pose = models.ManyToManyField (BankPose)
-    box = models.ManyToManyField (Safe_Box)
+    warehouse = models.ManyToManyField (WareHouseDefinde, blank=True)
+    orderkind = models.ManyToManyField (OrderKinde, blank=True)
+    bank_pose = models.ManyToManyField (BankPose, blank=True)
+    box = models.ManyToManyField (Safe_Box, blank=True)
     # buy access
     make_buy_order = models.BooleanField (default=False)
     show_buy_orders = models.BooleanField (default=False)

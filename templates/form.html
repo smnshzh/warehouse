@@ -1,1 +1,97 @@
+{% extends 'base.html' %}
 
+
+{% block content %}
+
+    <div class="sidenav">
+        <a href=""><h3>Accesses</h3></a>
+        <div style="alignment: center">
+            <table class="table" style="alignment: center">
+                <thead>
+                <tr>
+                    <th><h3>User name</h3></th>
+                    <th><h3>Name</h3></th>
+                    <th><h3>Position</h3></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for access in accesses %}
+                    {% if access.user.username != 'admin' %}
+                        <tr>
+                            <td><a href="{% url 'edit_access' access.id %}"><h4>{{ access.user.username }}</h4></a></td>
+                            <td><a href="#"><h4>{{ access.user.first_name }} {{ access.user.last_name }}</h4></a></td>
+                            <th><a href="">{% for position in access.user.groups.all %}
+                                <h4>{{ position }}</h4>{% endfor %}</a></th>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="main">
+        {% if username %}
+            <div style="margin-top: 2%;margin-bottom: 2%"> <h2>Username : {{ username }}</h2>{% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="POST" class="form-group-lg"> {{ form.as_p }} {% if username %}
+            <input class="button button-form button-primary" type="submit" value="submit"> {% endif %}
+            {% csrf_token %} </form>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <style>
+        /* The sidebar menu */
+        .sidenav {
+
+
+            height: 100%; /* Full-height: remove this if you want "auto" height */
+            width: 25%; /* Set the width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            right: 0;
+            background-color: grey; /* Black */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 20px;
+        }
+
+        /* The navigation menu links */
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            display: block;
+        }
+
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        /* Style page content */
+        .main {
+            margin-left: 160px; /* Same as the width of the sidebar */
+            padding: 0px 10px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+
+        }
+    </style>
+{% endblock %}

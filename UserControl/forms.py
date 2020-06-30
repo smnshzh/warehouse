@@ -26,6 +26,7 @@ class UserLoginForms (forms.Form):
 
 
 class UserRegisterForm (forms.ModelForm):
+
     class Meta:
         model = User
         fields = [
@@ -33,8 +34,8 @@ class UserRegisterForm (forms.ModelForm):
             'last_name',
             'username',
             'email',
+            'groups',
             'password',
-            'groups'
 
         ]
 
@@ -71,3 +72,4 @@ class AccessForm (forms.ModelForm):
     class Meta:
         model = Access
         fields = "__all__"
+        exclude = ["user", ]

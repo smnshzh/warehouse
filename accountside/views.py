@@ -1,12 +1,10 @@
-from django.shortcuts import render, redirect
-from .forms import *
-from .models import *
-from raisingstock.models import *
-from accountside.models import *
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
 from UserControl.decorators import *
+from .forms import *
+
 
 @login_required (login_url='login')
 @can_make_new_account
@@ -289,7 +287,7 @@ def define_bank_pose(request):
             id_code=int (form["code"][0]),
             name=f"{form['name'][0]} bank {form['branch'][0]}",
             region=local_id_def.objects.get(id = int(form["region"][0])),
-            telephonnumber=form["tel"]
+            telephonnumber=form["tel"][0]
 
         )
         account.kind.add (4)
@@ -332,7 +330,7 @@ def settle_invoice(request):
     return render (request, 'invoivesReport.html', context)
 
 
-from UserControl.models import AccsessTo, Access
+from UserControl.models import Access
 
 @login_required (login_url='login')
 @can_confirm_settlment

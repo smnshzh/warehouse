@@ -1,22 +1,139 @@
+{% extends 'base.html' %}
+{% block Head %}
+    <title>{{ Title }}</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
 
 
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datatable').dataTable({
+                dom: 'Bfrtip',
+                buttons: [],
+                "bPaginate": false
 
+            });
+        });
+    </script>
+{% endblock Head %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <form  method="POST" >
+    <div class="sidenav">
+        <a href=""><h3>Users</h3></a>
+        <div style="alignment: center">
+            <table id="datatable" class="table table-hover" style="alignment: center">
+                <thead style="alignment: center">
+                <tr>
+                    <td><h4>User name</h4></td>
+                    <td><h4>Name</h4></td>
+                    <td><h4>Position</h4></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for access in accesses %}
+                    {% if access.user.username != 'admin' %}
+                        <tr>
+                            <td><a href="{% url 'edit_user' access.user.id %}">{{ access.user.username }}</a></td>
+                            <td>{{ access.user.first_name }} {{ access.user.last_name }}</td>
+                            <td>{% for position in access.user.groups.all %}<p>{{ position }}</p>{% endfor %}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
 
-                <div class="seven columns">
-
-                    {% csrf_token %}
-                    {{ form }}<br>
-
-                    <input type="submit" class="button-primary" id="register-button-activation" >
-                </div>
-
-            </form>
         </div>
     </div>
+
+    <!-- Page content -->
+    <div class="main">
+        {% if username %}
+            <div style="margin-top: 2%;margin-bottom: 2%"> <h2>Username : {{ username }}</h2>{% endif %}
+        </div>
+    </div>
+    {% if id %}
+        <div class="container">
+
+            <form method="POST" class="form-group">
+                <lable><h4>Position : {{ form.groups }}</h4></lable>
+                <input type="submit" class="button-primary" id="register-button-activation"
+                       value={% if id %} {{ "Edit" }} {% endif %} "Register">{% csrf_token %}
+            </form>
+        </div>
+
+    {% else %}
+
+        <div class="container">
+
+            <form method="POST" class="form-actions">
+                {{ form.as_p }}
+                <input type="submit" class="button-primary" id="register-button-activation"
+                       value={% if id %} {{ "Edit" }} {% endif %} "Register">{% csrf_token %}
+            </form>
+        </div>
+
+    {% endif %}
+
+
 {% endblock %}
 
+{% block js %}
+    <style>
+        /* The sidebar menu */
+        .sidenav {
+
+
+            height: 100%; /* Full-height: remove this if you want "auto" height */
+            width: 40%; /* Set the width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            z-index: 1; /* Stay on top */
+            top: 0; /* Stay at the top */
+            right: 0;
+            background-color: grey; /* Black */
+            overflow-x: hidden; /* Disable horizontal scroll */
+            padding-top: 20px;
+            margin-bottom: 5%;
+        }
+
+        /* The navigation menu links */
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: medium;
+            color: black;
+            display: block;
+        }
+
+        /* When you mouse over the navigation links, change their color */
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        /* Style page content */
+        .main {
+            margin-left: 160px; /* Same as the width of the sidebar */
+            padding: 0px 10px;
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+
+        }
+    </style>
+{% endblock %}

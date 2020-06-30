@@ -5,6 +5,14 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserControl/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserControl/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accountside/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accountside/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +157,7 @@
       <workItem from="1593408827568" duration="576000" />
       <workItem from="1593411114556" duration="30817000" />
       <workItem from="1593497110183" duration="2542000" />
-      <workItem from="1593524085735" duration="1750000" />
+      <workItem from="1593524085735" duration="22622000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -223,7 +231,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۱۲" />
       <updated>1593505395890</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL‎۰۰۰۱۳" summary="ordering accesses">
+      <created>1593526108729</created>
+      <option name="number" value="LOCAL‎۰۰۰۱۳" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۱۳" />
+      <updated>1593526108729</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +253,8 @@
     <MESSAGE value="change in access" />
     <MESSAGE value="caccess test 1" />
     <MESSAGE value="caccess test 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="caccess test 2" />
+    <MESSAGE value="ordering accesses" />
+    <option name="LAST_COMMIT_MESSAGE" value="ordering accesses" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -249,10 +264,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="288" y="21" key="#Deployment/0.0.1366.728@0.0.1366.728" timestamp="1593465611188" />
-    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1593505376945">
+    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1593556519213">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593505376945" />
+    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593556519213" />
     <state x="142" y="54" key="DiffContextDialog" timestamp="1593465647792">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -297,10 +312,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592830219242" />
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593505407858">
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593526113631">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593505407858" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593526113631" />
     <state x="492" y="280" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1592228707398">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

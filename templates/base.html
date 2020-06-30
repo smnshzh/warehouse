@@ -187,24 +187,27 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Setting
-                </a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Setting
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
+                        {% if all_access.register %}
+                            <a class="dropdown-item" href="{% url 'signup' %}">Register</a>{% endif %}
                         <a class="dropdown-item" href="{% url 'define_bank_pose' %}">Define Bank Pose </a>
-                        <a class="dropdown-item" href=""></a>
+                        <a class="dropdown-item" href="{% url 'access_definer' %}">Accesses</a>
 
                         <a class="dropdown-item" href=""></a>
-                         <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
 
                     </div>
                 </li>
-            <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Reports
-                </a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reports
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if 2 in all_access.orderkind.all %}
                         <a class="dropdown-item" href="{% url 'sell_sended_order_report' %}">Sended Orders </a>
@@ -234,10 +237,7 @@
                     {{ user }}
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+
         </div>
     </nav>
 

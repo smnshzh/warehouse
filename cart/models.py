@@ -1,14 +1,16 @@
-from django.db import models
-from Shop.models import *
 from django.contrib.auth.models import User
-from accountside.models import *
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from decimal import Decimal as D
 
-class settlement(models.Model):
+from Shop.models import *
+from Shop.models import *
+from accountside.models import *
+from accountside.models import *
 
-    code = models.IntegerField()
-    name = models.CharField(max_length=45)
+
+class settlement (models.Model):
+    code = models.IntegerField ( )
+    name = models.CharField (max_length=45)
 
     def __str__(self):
         return self.name
@@ -140,16 +142,18 @@ class shipmentBack(models.Model):
     description = models.TextField (blank=True, null=True)
 
 
-class OrderKinde(models.Model):
+class OrderKinde (models.Model):
+    code = models.PositiveIntegerField ( )
+    name = models.CharField (max_length=10)
 
-    code = models.PositiveIntegerField()
-    name = models.CharField(max_length=10)
+    def __str__(self):
+        return self.name
+
 
 class Order (models.Model):
-
-    first_code = models.PositiveIntegerField()
-    fianl_code = models.PositiveIntegerField(blank=True,null=True)
-    creation_date = models.DateTimeField (auto_now_add=True,verbose_name=_ ('creation date'))
+    first_code = models.PositiveIntegerField ( )
+    fianl_code = models.PositiveIntegerField (blank=True, null=True)
+    creation_date = models.DateTimeField (auto_now_add=True, verbose_name=_ ('creation date'))
     checked_out = models.BooleanField (default=False, verbose_name=_ ('checked out'))
     checked_out_2 = models.BooleanField (default=False, verbose_name=_ ('checked out'))
     checked_out_3 = models.BooleanField (default=False, verbose_name=_ ('checked out'))
@@ -158,8 +162,8 @@ class Order (models.Model):
     accountside = models.ForeignKey (accountside, on_delete=models.CASCADE)
     shipment = models.ForeignKey (Shipment, on_delete=models.SET_NULL, blank=True, null=True)
     shipment_back = models.ForeignKey (shipmentBack, on_delete=models.SET_NULL, blank=True, null=True)
-    warhouse = models.ForeignKey(WareHouseDefinde,on_delete = models.DO_NOTHING)
-    orderkinde = models.ForeignKey(OrderKinde,on_delete= models.DO_NOTHING,blank=True,null=True)
+    warhouse = models.ForeignKey (WareHouseDefinde, on_delete=models.DO_NOTHING)
+    orderkinde = models.ForeignKey (OrderKinde, on_delete=models.DO_NOTHING, blank=True, null=True)
     visitor = models.ForeignKey(User,on_delete=models.DO_NOTHING,null=True,blank=True)
     settlement = models.ForeignKey(settlement,on_delete=models.SET_DEFAULT,default=1)
     row = models.PositiveIntegerField(default=0)
