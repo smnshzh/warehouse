@@ -53,7 +53,8 @@
                     <tr>
                         <th scope='col'>Row</th>
                         <th scope="col" style="cursor: pointer">Code</th>
-                        <th scope="col" style="cursor: pointer">Date</th>
+                        <th scope="col" style="cursor: pointer">Made Date</th>
+                        <th scope="col" style="cursor: pointer">send Date</th>
                         <th scope="col" style="cursor: pointer">Total Price</th>
                         <th scope="col" style="cursor: pointer">Distributor</th>
                         <th scope="col" style="cursor: pointer">Vehicle</th>
@@ -96,13 +97,14 @@
                                 {% if warehouse and all_access.view_shipment_items %}
                                     <a href="{% url 'shipment_items' shipment.id %}"
                                        target="_blank">{{ shipment.code }}</a>
-                                  {% elif warehouse  %}
-                                      {{ shipment.code }}
+                                {% elif warehouse %}
+                                    {{ shipment.code }}
                                 {% else %}
                                     <a href="{% url 'show_shipment_orders' shipment.id %}">{{ shipment.code }}</a>
                                 {% endif %}
                             </td>
                             <td>{{ shipment.creation_date.date }}</td>
+                            <td>{{ shipment.sended_date }}</td>
                             <td><span>$</span><span>{{ shipment.total_price }}</span></td>
                             {% if shipment.distributeur == None %}
 

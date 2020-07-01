@@ -2,20 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/warehouseInvoiceItems.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SCM/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SCM/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SCM/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserControl/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserControl/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserControl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Shop/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Shop/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cart/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raisingstock/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/raisingstock/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoicing.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoicing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/productsview.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/productsview.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cartext.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cartext.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/manageShipments.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/manageShipments.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -162,7 +163,8 @@
       <workItem from="1593497110183" duration="2542000" />
       <workItem from="1593524085735" duration="22902000" />
       <workItem from="1593587784957" duration="390000" />
-      <workItem from="1593589789131" duration="17054000" />
+      <workItem from="1593589789131" duration="36478000" />
+      <workItem from="1593642667548" duration="466000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -248,7 +250,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۱۴" />
       <updated>1593556640989</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL‎۰۰۰۱۵" summary="change in invoicing">
+      <created>1593616110978</created>
+      <option name="number" value="LOCAL‎۰۰۰۱۵" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۱۵" />
+      <updated>1593616110978</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,7 +273,8 @@
     <MESSAGE value="caccess test 1" />
     <MESSAGE value="caccess test 2" />
     <MESSAGE value="ordering accesses" />
-    <option name="LAST_COMMIT_MESSAGE" value="ordering accesses" />
+    <MESSAGE value="change in invoicing" />
+    <option name="LAST_COMMIT_MESSAGE" value="change in invoicing" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -275,10 +284,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="288" y="21" key="#Deployment/0.0.1366.728@0.0.1366.728" timestamp="1593465611188" />
-    <state x="358" y="0" key="CommitChangelistDialog2" timestamp="1593615933550">
+    <state x="358" y="0" key="CommitChangelistDialog2" timestamp="1593616090980">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="358" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593615933550" />
+    <state x="358" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593616090980" />
     <state x="142" y="54" key="DiffContextDialog" timestamp="1593465647792">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -323,10 +332,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592830219242" />
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593556643725">
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593618183545">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593556643725" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593618183545" />
     <state x="492" y="280" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1592228707398">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

@@ -1,5 +1,5 @@
-from django.contrib import admin
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
@@ -9,6 +9,5 @@ urlpatterns = [
     path ('random', views.randomData),
     path ("products", views.product_views, name="product_views"),
     path("autoInventory",views.auto_inventory_maker,name = "auto_inventory_maker"),
-    path('cartext-<int:id>',views.cartext,name = "cartext"),
 
 ]

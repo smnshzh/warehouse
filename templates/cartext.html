@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-
+{% load mathfilters %}
 
 
 {% block content %}
@@ -12,28 +12,73 @@
     <span style="margin-left: 10%">Name : {{ inventory.product.name }}</span>
 <span style="margin-left: 10%">Name : {{ inventory.product.id }}</span>
     <table class="table table-bordered" style="text-align: center">
-    <thead>
-    <tr>
-        <th>Type</th>
-        <th>Date</th>
-        <th>Quantity</th>
-        <th>Remain</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item in inventory.product_cartex %}
-    <tr>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Date</th>
+            <th>input</th>
+            <th>output</th>
+            <th>Remain</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
 
-        <th>{{ item.order.orderkinde.name }} </th>
-        <th>{{ item.order.creation_date }}</th>
-        <th>{{ item.quantity }}</th>
-        <th> </th>
-    </tr>
-    {% endfor %}
-    </tbody>
+                <td>{% if item.invoice_number.shipment %}
+                    shipment {{ item.invoice_number.shipment.code }}{% else %}
+                    {{ item.invoice_number.order.orderkinde }}
+                    {{ item.invoice_number.order.first_code }}({{ item.invoice_number.order.fianl_code }})
+                {% endif %} </td>
+                <td>{{ item.invoice_number.date }}</td>
+                <td class="input" id="input{{ forloop.counter }}">{{ item.input_quantity }}</td>
+                <td class="output" id="output{{ forloop.counter }}">{{ item.output_quantity }}</td>
+                <td class="remain" id="remain{{ forloop.counter }}">{{ remain_cal.forloop.counter|sub:1 }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
 </div>
 </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        var remainclass = document.getElementsByClassName("remain");
+        blank_list = [];
+        for (var i = 1; i < remainclass.length + 1; i++) {
+            var output = document.getElementById("output" + i);
+            var input = document.getElementById("input" + i);
+
+            console.log(input.innerHTML);
+
+            blank_list.push(parseInt(input.innerHTML) - parseInt(output.innerHTML))
+
+
+        }
+        for (var k = 0; k < blank_list.length; k++) {
+
+            if (k !== 0) {
+
+                blank_list[k] = parseInt(blank_list[k]) + parseInt(blank_list[k - 1])
+
+            }
+
+
+        }
+        console.log(blank_list);
+        for (var l = 0; l < remainclass.length; l++) {
+
+            remainclass[l].innerHTML = blank_list[l]
+
+
+        }
+
+    </script>
 
 
 {% endblock %}

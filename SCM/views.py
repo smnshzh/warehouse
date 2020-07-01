@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 
 from UserControl.decorators import *
 from UserControl.forms import *
-from cart.models import *
+from .models import *
 
 
 @login_required (login_url='login')
@@ -86,6 +86,22 @@ def recieve_and_send_shipments(request):
                 selected_shipment.checked_out_2 = True
                 selected_shipment.save ( )
                 selected_shipment.sended_date = datetime.now ( )
+                last_code = 1
+                if WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( ):
+                    coding = WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( )
+                    last_code += coding.code
+                invoice_number = WarehouseInvoiceNumber.objects.create (
+                    shipment=selected_shipment,
+                    code=last_code,
+                    warehouse=selected_shipment.warehouse,
+                    date=datetime.now ( )
+                )
+                for item in items:
+                    WarehouseInvoiceItems.objects.create (
+                        invoice_number=invoice_number,
+                        product=item.product,
+                        output_quantity=item.quantity
+                    )
                 return redirect ("recieve_and_send_shipments")
 
     context = {
@@ -129,6 +145,9 @@ def cancle_sending(request):
                         selected_shipment.save ( )
                         selected_shipment.sended_date = None
                         selected_shipment.save ( )
+                        warehouse_invoice = WarehouseInvoiceNumber.objects.get (shipment=selected_shipment)
+                        warehouse_invoice.delete ( )
+
                     else:
                         context = {
                             "message": messages.warning (request,
@@ -283,6 +302,23 @@ def confirm_shipment_items_back(request, id):
             order.save ( )
             order.modifier_remover_user = user.username
             order.save ( )
+            last_code = 1
+            if WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( ):
+                coding = WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( )
+                last_code += coding.code
+            invoice_number = WarehouseInvoiceNumber.objects.create (
+                order=order,
+                code=last_code,
+                warehouse=order.warhouse,
+                date=order.confirm_delete_date
+            )
+            for item in items:
+                WarehouseInvoiceItems.objects.create (
+                    invoice_number=invoice_number,
+                    product=item.product,
+                    input_quantity=item.quantity
+                )
+
 
 
     else:
@@ -626,6 +662,15 @@ def accounting_shipment(request, id):
     return render (request, "accountingShipmnet.html", context)
 
 
+def make_warehouse_invoice(request):
+    orders = Order.objects.all ( )
+    for order in orders:
+        if order.orderkinde.id == 1 and order.checked_out == False:
+            invoice_number = WarehouseInvoiceNumber.objects.get (order=order)
+            invoice_number.delete ( )
+
+    return redirect ("warhouse_invoice_report")
+
 # ======================REPORTS================================================
 
 @login_required (login_url='login')
@@ -680,18 +725,52 @@ def settletd_shipment_report(request,id):
         "orders":orders,
     }
 
+    return render (request, "settledShipmentReport.html", context)
 
-    return render(request,"settledShipmentReport.html",context)
 
 @login_required (login_url='login')
 @can_invoices_report
 def return_report(request):
-
-    back_up = OrderItemBackup.objects.all()
-    order_finalize = OrderItem.objects.filter(order__fianl_code__isnull=False)
-
+    back_up = OrderItemBackup.objects.all ( )
+    order_finalize = OrderItem.objects.filter (order__fianl_code__isnull=False)
 
 
+@login_required (login_url='login')
+@can_products_detail
+def warhouse_invoice_report(request):
+    invoice_items = WarehouseInvoiceItems.objects.all ( )
+
+    context = {
+        "items": invoice_items
+    }
+    return render (request, "warehouseInvoiceItems.html", context)
+
+
+@login_required (login_url='login')
+@can_products_detail
+def cartex(request, id):
+    inventory = Inventory.objects.get (id=id)
+    items = WarehouseInvoiceItems.objects.filter (product=inventory.product,
+                                                  invoice_number__warehouse=inventory.warehouse
+                                                  ).order_by ("invoice_number__date")
+
+    remain_list = [item.input_quantity - item.output_quantity for item in items]
+    remain_cal = []
+    i = 0
+    for item in remain_list:
+        if i == 0:
+            remain_cal.append (item)
+            i += 1
+        else:
+            index = i - 1
+            remain_cal.append (item + remain_cal[index])
+            i += 1
+    context = {
+        "inventory": inventory,
+        "items": items,
+        "remain_cal": remain_cal
+    }
+    return render (request, 'cartext.html', context)
 
 
 # =================== CHART ===================================================

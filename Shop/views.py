@@ -1,24 +1,14 @@
-from cart.views import *
-from django.shortcuts import render,get_object_or_404
-from cart import forms
-from cart import filters
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-import requests
-from django.core.paginator import Paginator
-from .models import *
-import json
-import pandas as pd
-from random import *
-from raisingstock.models import *
-from django.contrib import messages
-from UserControl.models import *
+from django.shortcuts import render
+
 from UserControl.decorators import *
 
-def product_off_step_finder(product_off_id,quantity):
 
-    selected_product_off = ProductOff.objects.filter(id = product_off_id).first()
+def product_off_step_finder(product_off_id, quantity):
+    selected_product_off = ProductOff.objects.filter (id=product_off_id).first ( )
 
-    if quantity< selected_product_off.minQ_1 :
+    if quantity < selected_product_off.minQ_1:
         return 0
     if quantity >= selected_product_off.minQ_1 and quantity<selected_product_off.maxQ_1 :
         return selected_product_off.off_persentage_1
@@ -152,17 +142,4 @@ def auto_inventory_maker(request):
     }
 
     return render(request,'inventory.html',context)
-@login_required (login_url='login')
-@can_products_detail
-def cartext(request,id):
 
-    inventory = Inventory.objects.get(id = id)
-
-
-    context = {
-
-        "inventory": inventory
-    }
-
-
-    return render(request,'cartext.html',context)

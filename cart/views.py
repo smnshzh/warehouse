@@ -1328,15 +1328,11 @@ def settle_order(request, id):
 
 
 def date_to(request):
-    blank = []
-
-    orders = Order.objects.filter (checked_out_2=True, orderkinde__code=1)
+    orders = Order.objects.all ( )
     for order in orders:
-        print (order.id)
-        journal = OrderJournalRelation.objects.filter (order=order).first ( )
-        date = journal.document_number.creation_date
-        order.data_convert_invoice = date
+        made_date = order.creation_date
+        order.confirm_delete_date = made_date
         order.save ( )
-        blank.append (order.id)
+        order.modifier_remover_user = (User.objects.get (id=1)).username
 
     return redirect ('index')

@@ -110,7 +110,6 @@ class WareHouseDefinde (models.Model):
 
 
 from cart.models import OrderItem,OrderItemBackup
-from decimal import Decimal as D
 
 
 class Inventory (models.Model):
@@ -225,15 +224,7 @@ class Inventory (models.Model):
 
         return quantity
     buy_back_quantity=property(buy_back_quantity)
-    def product_cartex(self):
-        items = OrderItem.objects.filter (
-            product=self.product,
-            order__warhouse=self.warehouse,
-            order__checked_out=True,
-            order__checked_out_2=True,
-        ).order_by ("order__creation_date")
 
-        return items
 
     def sended(self):
         items = OrderItem.objects.filter (product=self.product,

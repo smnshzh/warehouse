@@ -1,15 +1,14 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .models import *
 import datetime
+
 from django.contrib import messages
-from Shop.models import *
-from accountside.models import *
-from django.http import HttpResponse, HttpResponseRedirect
-from UserControl.models import *
-from cart.models import *
-from cart.views import can_access_warehouse
-from UserControl.decorators import *
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, reverse
+
+from SCM.models import *
+from UserControl.decorators import *
+from cart.views import can_access_warehouse
+
 
 @login_required (login_url='login')
 @can_confirm_buy_order
@@ -36,9 +35,26 @@ def warehouse_confirm_buy_order(request, id=None):
                         selected_product_forRaising.save ( )
                     selected_buy_order.checked_out = True
                     selected_buy_order.save ( )
+                    last_code = 1
+                    if WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( ):
+                        coding = WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( )
+                        last_code += coding.code
+                    invoice_number = WarehouseInvoiceNumber.objects.create (
+                        order=selected_buy_order,
+                        code=last_code,
+                        warehouse=selected_buy_order.warhouse,
+                        date=datetime.now ( )
+                    )
+                    for item in selected_buy_items:
+                        WarehouseInvoiceItems.objects.create (
+                            invoice_number=invoice_number,
+                            product=item.product,
+                            input_quantity=item.quantity
+                        )
     buy_orders = Order.objects.filter (checked_out_2='False', warhouse_id__in=warhouse_list, orderkinde_id__in=[1,4])
     buy_ordrersIitems = OrderItem.objects.all ( )
     buy_orders_items_orderId = [item.order.id for item in buy_ordrersIitems]
+
     tik = 1
     context = {
         "title": "Confirm Buy & Sell-Back Orders",
@@ -143,6 +159,8 @@ def deconfirm_buy_order(request, id):
                     selected_product_forDeconfirm.save ( )
                     selected_order.checked_out = False
                     selected_order.save ( )
+                    warehouse_invoice = WarehouseInvoiceNumber.objects.get (order=selected_order)
+                    warehouse_invoice.delete ( )
                 return redirect ("warehouse_confirm_buy_order")
 
         else:
@@ -192,6 +210,23 @@ def warehouse_confirm_buy_back(request, id=None):
                             selected_product_forRaising.save ( )
                         selected_buy_order.checked_out = True
                         selected_buy_order.save ( )
+                        last_code = 1
+                        if WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( ):
+                            coding = WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( )
+                            last_code += coding.code
+                        invoice_number = WarehouseInvoiceNumber.objects.create (
+                            order=selected_buy_order,
+                            code=last_code,
+                            warehouse=selected_buy_order.warhouse,
+                            date=selected_buy_order.confirm_delete_date
+                        )
+                        for item in selected_buy_items:
+                            WarehouseInvoiceItems.objects.create (
+                                invoice_number=invoice_number,
+                                product=item.product,
+                                output_quantity=item.quantity
+                            )
+
                     else:
                         for item in blank_list:
                             context = {
@@ -238,6 +273,8 @@ def deconfirm_buy_back(request, id):
             selected_product_forDeconfirm.save ( )
             selected_order.checked_out = False
             selected_order.save ( )
+            warehouse_invoice = WarehouseInvoiceNumber.objects.get (order=selected_order)
+            warehouse_invoice.delete ( )
         context = {
             "message" : messages.info(request,f"You have deconfirm Buy back request number {selected_order.first_code} ")
         }

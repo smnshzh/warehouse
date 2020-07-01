@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>date</th>
+            <th>invoice number</th>
+            <th>Wharehouse</th>
+            <th>Product name</th>
+            <th>Input Quantity</th>
+            <th>Outut Quantity</th>
+            <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.invoice_number.date }}</td>
+                <td>{{ item.invoice_number.code }}</td>
+                <td>{{ item.invoice_number.warehouse.name }}</td>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.input_quantity }}</td>
+                <td>{{ item.output_quantity }}</td>
+                <td>{% if item.invoice_number.shipment %} shipment {{ item.invoice_number.shipment.code }}
+                {% else %}
+                    {{ item.invoice_number.order.orderkinde }}{{ item.invoice_number.order.first_code }}
+                {% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
