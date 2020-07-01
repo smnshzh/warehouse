@@ -3,16 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="5e072efa-3f8f-4e15-a2c2-c593203cfb5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SCM/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/SCM/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserControl/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/decorators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserControl/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserControl/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserControl/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserControl/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserControl/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accountside/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accountside/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cart/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cart/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inventory.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/invoicing.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoicing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/productsview.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/productsview.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +160,9 @@
       <workItem from="1593408827568" duration="576000" />
       <workItem from="1593411114556" duration="30817000" />
       <workItem from="1593497110183" duration="2542000" />
-      <workItem from="1593524085735" duration="22622000" />
+      <workItem from="1593524085735" duration="22902000" />
+      <workItem from="1593587784957" duration="390000" />
+      <workItem from="1593589789131" duration="17054000" />
     </task>
     <task id="LOCAL‎۰۰۰۰۱" summary="change in confirm pay order">
       <created>1592243696229</created>
@@ -237,7 +242,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۱۳" />
       <updated>1593526108729</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL‎۰۰۰۱۴" summary="ordering accesses">
+      <created>1593556640989</created>
+      <option name="number" value="LOCAL‎۰۰۰۱۴" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۱۴" />
+      <updated>1593556640989</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,10 +275,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="288" y="21" key="#Deployment/0.0.1366.728@0.0.1366.728" timestamp="1593465611188" />
-    <state x="313" y="0" key="CommitChangelistDialog2" timestamp="1593556519213">
+    <state x="358" y="0" key="CommitChangelistDialog2" timestamp="1593615933550">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="313" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593556519213" />
+    <state x="358" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1593615933550" />
     <state x="142" y="54" key="DiffContextDialog" timestamp="1593465647792">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -312,10 +323,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592830219242" />
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593526113631">
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1593556643725">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593526113631" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1593556643725" />
     <state x="492" y="280" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1592228707398">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

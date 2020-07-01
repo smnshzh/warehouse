@@ -29,6 +29,7 @@ class Shipment (models.Model):
     distributeur = models.ForeignKey (User, on_delete=models.DO_NOTHING, blank=True, null=True)
     warehouse = models.ForeignKey(WareHouseDefinde,on_delete=models.CASCADE)
     description = models.TextField (blank=True, null=True)
+    sended_date = models.DateTimeField (null=True, blank=True)
 
     class Meta:
         ordering = ('id',)
@@ -164,14 +165,14 @@ class Order (models.Model):
     shipment_back = models.ForeignKey (shipmentBack, on_delete=models.SET_NULL, blank=True, null=True)
     warhouse = models.ForeignKey (WareHouseDefinde, on_delete=models.DO_NOTHING)
     orderkinde = models.ForeignKey (OrderKinde, on_delete=models.DO_NOTHING, blank=True, null=True)
-    visitor = models.ForeignKey(User,on_delete=models.DO_NOTHING,null=True,blank=True)
-    settlement = models.ForeignKey(settlement,on_delete=models.SET_DEFAULT,default=1)
-    row = models.PositiveIntegerField(default=0)
-    orderid = models.PositiveIntegerField(null=True,blank=True)
-    description = models.TextField(null=True,blank=True)
-    data_convert_invoice = models.DateTimeField(null=True,blank=True)
-
-
+    visitor = models.ForeignKey (User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    settlement = models.ForeignKey (settlement, on_delete=models.SET_DEFAULT, default=1)
+    row = models.PositiveIntegerField (default=0)
+    orderid = models.PositiveIntegerField (null=True, blank=True)
+    description = models.TextField (null=True, blank=True)
+    data_convert_invoice = models.DateTimeField (null=True, blank=True)
+    confirm_delete_date = models.DateTimeField (null=True, blank=True)
+    modifier_remover_user = models.CharField (max_length=40, null=True, blank=True)
 
     class Meta:
         ordering = ('id',)
@@ -179,10 +180,10 @@ class Order (models.Model):
     def __str__(self):
         return f'{self.id}'
 
-    def order_totalPrice (self):
-        select = OrderItem.objects.filter(order_id = self.id)
+    def order_totalPrice(self):
+        select = OrderItem.objects.filter (order_id=self.id)
 
-        return sum([item.total_price for item in select])
+        return sum ([item.total_price for item in select])
 
     order_finalPrice = property(order_totalPrice)
 

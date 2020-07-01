@@ -34,10 +34,11 @@ def register(request, id=None):
     username = None
     if id != None:
         username = User.objects.get (id=id)
-        form = UserRegisterForm (instance=username)
-    if request.method == 'POST' and id != None:
-        form = UserRegisterForm (request.POST)
-        print (form["groups"])
+        form = UserEditForm (instance=username)
+    if request.method == 'POST' and username:
+        form = UserEditForm (request.POST, instance=username)
+        form.save ( )
+
     if request.method == 'POST' and id == None:
         if form.is_valid ( ):
             user = form.save (commit=False)

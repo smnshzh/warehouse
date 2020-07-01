@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+
 from .models import *
 
 
@@ -555,6 +556,7 @@ def can_see_shipment_ready_for_accounting(function):
 
     return wrap
 
+
 def can_accounting_shipment(function):
     def wrap(request, *args, **kwargs):
 
@@ -562,6 +564,21 @@ def can_accounting_shipment(function):
         access = Access.objects.get (user=user)
 
         if access.accounting_shipment:
+            return function (request, *args, **kwargs)
+
+        else:
+            raise PermissionDenied
+
+    return wrap
+
+
+def accesse_to_sell(function):
+    def wrap(request, *args, **kwargs):
+
+        user = request.user
+        access = Access.objects.get (user=user)
+        orderkind_list = [item.name for item in access.orderkind.all ( )]
+        if "sell" in orderkind_list and access.make_sell_order:
             return function (request, *args, **kwargs)
 
         else:

@@ -35,22 +35,22 @@
 
 {% endblock Head %}
 {% block content %}
-    <div style="margin-top: 80px">
-<div class="container">
-    <table id="datatable" class="table dataTable" style="text-align: center">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Sell Price</th>
-            <th scope="col">Buy Price</th>
-            <th>Buy price</th>
-            <th scope="col">Sell Stock</th>
-            <th scope="col">Stock</th>
+    <div style="margin-top: 5%">
+        <div class="container">
+            <table id="datatable" class="table dataTable" style="text-align: center">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Sell Price</th>
+                    <th scope="col">Buy Price</th>
+                    <th>Buy price</th>
+                    <th scope="col">Sell Stock</th>
+                    <th scope="col">Stock</th>
 
-        </tr>
-        <tbody>
-        {% for item in products %}
+                </tr>
+                <tbody>
+                {% for item in products %}
 
             <tr style="text-align: center">
 

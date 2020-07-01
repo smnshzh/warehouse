@@ -174,10 +174,12 @@
                     </div>
                 </li>
             {% endif %}
+            {% if all_access.deliver_confirm_shipment %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   Delivery
-                </a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Delivery
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'deliver_shipment_view' %}">Shipment On Way</a>
 
@@ -186,23 +188,29 @@
 
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Setting
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if all_access.register %}
-                            <a class="dropdown-item" href="{% url 'signup' %}">Register</a>{% endif %}
-                        <a class="dropdown-item" href="{% url 'define_bank_pose' %}">Define Bank Pose </a>
-                        <a class="dropdown-item" href="{% url 'access_definer' %}">Accesses</a>
+            {% endif %}
+                {% if all_access.register or all_access.defind_banck_pose or user.is_superuser %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Setting
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if all_access.register %}
+                                <a class="dropdown-item" href="{% url 'signup' %}">Register</a>{% endif %}
+                            {% if all_access.defind_banck_pose %}
+                                <a class="dropdown-item" href="{% url 'define_bank_pose' %}">Define Bank
+                                    Pose </a>{% endif %}
+                            {% if user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'access_definer' %}">Accesses</a>{% endif %}
 
-                        <a class="dropdown-item" href=""></a>
-                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href=""></a>
+                            <div class="dropdown-divider"></div>
 
 
-                    </div>
-                </li>
+                        </div>
+                    </li>
+                {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -210,7 +218,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if 2 in all_access.orderkind.all %}
-                        <a class="dropdown-item" href="{% url 'sell_sended_order_report' %}">Sended Orders </a>
+                            <a class="dropdown-item" href="{% url 'sell_sended_order_report' %}">Sended Orders </a>
                         {% endif %}
                         <a class="dropdown-item" href="{% url 'invoices_report' %}">Invoices Report</a>
                         <a class="dropdown-item" href="{% url 'invoices_product_report' %}">Sold Products</a>

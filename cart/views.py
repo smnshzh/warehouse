@@ -1,45 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.views.decorators.http import require_POST
-from Shop.models import Product
-from .forms import *
-from .models import *
-from django.core.paginator import Paginator
-from django.contrib.contenttypes.models import ContentType
-from SCM.models import *
-from .filters import *
-from django.contrib.auth.decorators import login_required
-from UserControl.views import logIn
-from UserControl.urls import *
-from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib import messages
-from accountside.filters import *
-from accountside.models import *
-from django.forms import formset_factory
-from django.utils.safestring import mark_safe
-import json
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+
+from SCM.models import *
 from Shop.views import product_off_step_finder
-from decimal import *
-from UserControl.models import *
 from UserControl.decorators import *
-from django.core.exceptions import PermissionDenied
-
-
-def accesse_to_sell(function):
-    def wrap(request, *args, **kwargs):
-
-        user = request.user
-        access = Access.objects.get (user=user)
-        orderkind_list = [item.name for item in access.orderkind.all ( )]
-        print (orderkind_list)
-        if "sell" in orderkind_list:
-            return function (request, *args, **kwargs)
-
-        else:
-            raise PermissionDenied
-
-    return wrap
+from .filters import *
+from .forms import *
 
 
 def can_access_warehouse(function):
@@ -62,6 +31,7 @@ def can_access_warehouse(function):
 def sell(request):
     user = request.user
     user = request.user
+    settel_kinde = settlement.objects.all ( )
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warhouse_list = [item for item in user_warehouse_access.warehouse.all ( )]
     access_to_visitor = AccsessTo.objects.get (user__user=user)
@@ -71,7 +41,8 @@ def sell(request):
     if request.method == "POST":
         form = dict (request.POST)
         form.pop ('csrfmiddlewaretoken')
-
+        settle = settlement.objects.get (id=form["settle"][0])
+        form.pop ("settle")
         selected_accountside_id = form['customer_id']
         selected_warehouse = form["warehouse"]
         form.pop ("warehouse")
@@ -104,7 +75,7 @@ def sell(request):
             order = Order.objects.create (creation_date=datetime.now ( ), user_craeter=user,
                                           accountside=selected_accountside, warhouse=warhouse_model_select,
                                           orderkinde=OrderKinde.objects.get (code=2), visitor=visitor,
-                                          first_code=last_first_code + 1)
+                                          first_code=last_first_code + 1, settlement=settle)
             for item in form.values ( ):
                 product = Product.objects.filter (name=item[0]).first ( )
                 inventory = get_object_or_404 (Inventory, warehouse=warhouse_model_select, product=product)
@@ -124,7 +95,7 @@ def sell(request):
 
                 inventory.sell_stock -= int ((float (item[1]))) * product.box
                 inventory.save ( )
-            return redirect ('modify_sell_view')
+            return redirect ('sell')
         else:
             for product in list_of_non_products:
                 message = messages.warning (request, f"{product} is not available")
@@ -136,7 +107,8 @@ def sell(request):
         "title": "New Sell Order",
         "warehouses": warhouse_list,
         "sell": 1,
-        "visitors": access_to_visitor_list
+        "visitors": access_to_visitor_list,
+        'settelment': settel_kinde,
 
     }
 
@@ -175,6 +147,10 @@ def modify_sell_view(request):
             try:
                 order = Order.objects.get (id=int (item))
                 order.checked_out = True
+                order.save ( )
+                order.confirm_delete_date = datetime.now ( )
+                order.save ( )
+                order.modifier_remover_user = user.username
                 order.save ( )
             except:
                 pass

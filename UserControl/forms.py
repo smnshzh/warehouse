@@ -60,7 +60,15 @@ class UserRegisterForm (forms.ModelForm):
 
         return super (UserRegisterForm, self).clean (*args, **kwargs)
 
+class UserEditForm (forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'groups',
 
+        ]
 
 class Disrobuter(forms.Form):
     CHOICES = [(item.id , f"{item.first_name} {item.last_name}")for item in User.objects.filter(groups = 2) ]

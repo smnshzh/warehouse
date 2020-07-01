@@ -41,12 +41,13 @@
                 </div>
             </h5>
             <div class="dropdown-divider"></div>
+
             <form autocomplete="off" method="post" action="">
+                <div class="inline-group">
+                    <div class="autocomplete">
+                        <div>
 
-                <div class="autocomplete">
-                    <div style="margin-right: 75px">
-
-                        {% if sell and not delivery %}
+                            {% if sell and not delivery %}
                             <select type="hidden" name="visitor" class="visitor_id" id="visitor_id" style="float: right">
                             {% for visitor in visitors %}
                                 {% if visitor.id != 1  %}
@@ -56,41 +57,56 @@
                             </select>
                         {% endif %}
                     </div>
+
                     <div style="margin-right : 8%;margin-left: 8%">
                         {% if not delivery %}
                             <select name="warehouse" id="">
                                 {% for warehouse in warehouses %}
 
-                                        <option {% if order.warhouse.name == warehouse.name %}selected
-                                                {% else %}{% endif %}value="{{ warehouse.name }}">
-                                            {{ warehouse.name }}</option>
-
-
-
-
+                                    <option {% if order.warhouse.name == warehouse.name %}selected
+                                            {% else %}{% endif %}value="{{ warehouse.name }}">
+                                        {{ warehouse.name }}</option>
 
                                 {% endfor %}
-
                             </select>
                         {% endif %}
 
+                    </div>
+                        <div class="form-inline">
+                            <div>
+                                <input id="suplier" type="text" name="" placeholder="Customer Name" required
+                                       class="input-group-text" onkeyup="accountside_info()"
+                                       onchange="accountside_info()" onmousemove="accountside_info()"
+                                       value="{{ order.accountside.id_code }}-{{ order.accountside.name }}"
+                                       style="margin-left: 40%;margin-right: 50% ">
+                                <input type="hidden" name="customer_id" class="customer_id" id="customer_id"
+                                       value="{{ order.accountside.id }}">
+                            </div>
+                            <div style="margin-left: 25%;float: right">
 
-                       <input id="suplier" type="text" name="" placeholder="Customer Name" required
-                               class="input-group-text" onkeyup="accountside_info()"
-                               onchange="accountside_info()" onmousemove="accountside_info()"
-                               value="{{ order.accountside.id_code }}-{{ order.accountside.name }}" style="margin-left: 40%;margin-right: 50% ">
-                        <input type="hidden" name="customer_id" class="customer_id" id="customer_id"
-                               value="{{ order.accountside.id }}">
+                                {% if sell and not delivery %}
+                                    <select name="settle" class="settle" id="settle">
+                                        {% for settle in settelment %}
+
+                                            <option value="{{ settle.id }}">{{ settle.name }} </option>
+
+                                        {% endfor %}
+                                    </select>
+
+                                {% endif %}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
                 <div class="container">
                     <div class="autocomplete" style="width:300px;">
 
-                        <div style="margin-right : 23%;margin-left: 23%
+                        <div style="margin-right : 23%;margin-left: 13%
     ;margin-bottom: 20%;margin-top: 5%;">
                             <div class="dropdown-divider"></div>
-                            <table class="table table-hover table-dark" style="text-align: center ; border-collapse: collapse; ">
+                            <table class="table table-hover table-dark"
+                                   style="text-align: center ; border-collapse: collapse; ">
                                 <thead class="thead-light">
                                 <th>Name</th>
                                 <th>Box</th>

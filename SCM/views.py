@@ -1,17 +1,12 @@
-from django.shortcuts import render, redirect
-from cart.forms import *
-from django.core.paginator import Paginator
-from cart.forms import *
-from cart.filters import *
-from cart.models import *
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from datetime import datetime
 from django.contrib import messages
-from UserControl.models import Access
-from UserControl.forms import *
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from django.shortcuts import render, redirect
+
 from UserControl.decorators import *
+from UserControl.forms import *
+from cart.models import *
+
 
 @login_required (login_url='login')
 def shipment_overall(request):
@@ -90,6 +85,7 @@ def recieve_and_send_shipments(request):
 
                 selected_shipment.checked_out_2 = True
                 selected_shipment.save ( )
+                selected_shipment.sended_date = datetime.now ( )
                 return redirect ("recieve_and_send_shipments")
 
     context = {
@@ -130,6 +126,8 @@ def cancle_sending(request):
                             inventory.save ( )
 
                         selected_shipment.checked_out_2 = False
+                        selected_shipment.save ( )
+                        selected_shipment.sended_date = None
                         selected_shipment.save ( )
                     else:
                         context = {
@@ -280,6 +278,10 @@ def confirm_shipment_items_back(request, id):
             order.checked_out_2 = True
             order.save ( )
             order.user_craeter = f"{user.username}"
+            order.save ( )
+            order.confirm_delete_date = datetime.now ( )
+            order.save ( )
+            order.modifier_remover_user = user.username
             order.save ( )
 
 

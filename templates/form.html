@@ -6,7 +6,7 @@
     <div class="sidenav">
         <a href=""><h3>Accesses</h3></a>
         <div style="alignment: center">
-            <table class="table" style="alignment: center">
+            <table class="table">
                 <thead>
                 <tr>
                     <th><h3>User name</h3></th>
@@ -39,8 +39,19 @@
     </div>
 
     <div class="container">
-        <form method="POST" class="form-group-lg"> {{ form.as_p }} {% if username %}
-            <input class="button button-form button-primary" type="submit" value="submit"> {% endif %}
+        <form method="POST" class="form-group-lg">
+            <table class="table-hover">
+                <tbody>
+                {% for item in form %}
+                    <tr>
+                        <td>{{ item.label }} :</td>
+                        <td>{{ item }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if username %}
+                <input class="button button-form button-primary" type="submit" value="submit"> {% endif %}
             {% csrf_token %} </form>
     </div>
 
@@ -71,6 +82,10 @@
             display: block;
         }
 
+        .label {
+            alignment: left;
+        }
+
         /* When you mouse over the navigation links, change their color */
         .sidenav a:hover {
             color: #f1f1f1;
@@ -94,4 +109,6 @@
 
         }
     </style>
+
+
 {% endblock %}
