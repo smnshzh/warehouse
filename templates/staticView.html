@@ -12,17 +12,21 @@
 <body>
 
 <div style="margin-left: 10%;margin-right: 10%">
-    <p><h1 style="margin-left:33%;margin-right:33%;margin-bottom: 5%;">{{ kinde }} Code : {{ order.first_code }}</h1></p>
+    <p>
+    <h1 style="margin-left:33%;margin-right:33%;margin-bottom: 5%;">{{ kinde }} Code
+        : {{ order.first_code }}</h1>   </p>
+    <div class="inline-group">
+        <span><h4> warehouse : {{ order.warhouse.name }} </h4></span></div>
     <p style="border: 1px groove black;margin-bottom: 3%"></p>
     <div style="margin-bottom: 5%"><span style="margin-right: 10%">Name : {{ order.accountside.name }}</span>
         <span style="margin-right: 10%">Tel : {{ order.accountside.telephonnumber }}</span>
-    <span style="margin-right: 10%"> Visitor : {{ order.visitor.first_name }} {{ order.visitor.last_name }}</span>
+        <span style="margin-right: 10%"> Visitor : {{ order.visitor.first_name }} {{ order.visitor.last_name }}</span>
         <span style="margin-right: 10%">Deliver : {{ order.shipment.distributeur.first_name }} {{ order.shipment.distributeur.last_name }}</span>
-    <span>Shipment code : {{ order.shipment.code }}</span>
+        <span>Shipment code : {{ order.shipment.code }}</span>
     </div>
     <p style="border: 1px groove black;margin-bottom: 3%"></p>
     <div style="margin-bottom: 3%">Address : {{ order.accountside.region.city }} -
-        {{  order.accountside.region.local_name }} - {{ order.accountside.address }}</div>
+        {{ order.accountside.region.local_name }} - {{ order.accountside.address }}</div>
  <p style="border: 1px groove black;margin-bottom: 3%"></p>
 
 

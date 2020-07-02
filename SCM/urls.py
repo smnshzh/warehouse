@@ -23,4 +23,5 @@ urlpatterns = [
     path ('chart', views.chart, name="chart"),
     path ('invoice-items-report', views.warhouse_invoice_report, name="warhouse_invoice_report"),
     path ('cartext-<int:id>', views.cartex, name="cartext"),
+    path ('sell-product-<int:id>-order-report-', views.sell_order_report, name="sell_order_report")
 ]

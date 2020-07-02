@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -26,14 +25,23 @@ def product_views(request):
     user = request.user
     slelect_all_products = Product.objects.all ( )
     select_all_warehouse = WareHouseDefinde.objects.last ( )
-    access = Access.objects.get(user = user)
+    access = Access.objects.get (user=user)
 
     user_warehouse_access = Access.objects.filter (user_id=user.id).first ( )
     warhouse_list = [item.id for item in user_warehouse_access.warehouse.all ( )]
-    inventory = Inventory.objects.filter (warehouse_id__in = warhouse_list)
+    inventory = Inventory.objects.filter (warehouse_id__in=warhouse_list)
+    selected = 0
+    if request.method == "POST":
+        form = dict (request.POST)
+        if form["warehouse"][0] != 0:
+            warehouse = WareHouseDefinde.objects.get (id=form["warehouse"][0])
+            inventory = Inventory.objects.filter (warehouse=warehouse)
+            selected = int (form["warehouse"][0])
+
     context = {
         'inventory': inventory,
-        "accsess":access
+        "accsess": access,
+        "selected": selected
     }
 
     return render (request, 'inventory.html', context)

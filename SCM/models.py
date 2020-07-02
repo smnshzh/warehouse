@@ -15,8 +15,8 @@ class ComeForDelivery (models.Model):
 
 
 class WarehouseInvoiceNumber (models.Model):
-    shipment = models.ForeignKey (Shipment, null=True, blank=True, on_delete=models.CASCADE, unique=True)
-    order = models.ForeignKey (Order, null=True, blank=True, on_delete=models.CASCADE, unique=True)
+    shipment = models.OneToOneField (Shipment, null=True, blank=True, on_delete=models.CASCADE, unique=True)
+    order = models.OneToOneField (Order, null=True, blank=True, on_delete=models.CASCADE, unique=True)
     code = models.PositiveIntegerField ( )
     warehouse = models.ForeignKey (WareHouseDefinde, null=True, blank=True, on_delete=models.CASCADE)
     date = models.DateTimeField (null=True, blank=True)

@@ -1,10 +1,11 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from SCM.models import *
 from Shop.views import product_off_step_finder
 from UserControl.decorators import *
 from .filters import *
@@ -1016,7 +1017,7 @@ def delivery_function_on_order_items(request, id):
             form.pop ("csrfmiddlewaretoken")
             if "return_all" in form:
                 if backed is None:
-                    last_back_order = Order.objects.last ( )
+                    last_back_order = Order.objects.last (OrderKinde.objects.filter (id=6))
                     first_code = 1
                     if last_back_order.first_code:
                         first_code += int (last_back_order.first_code)

@@ -29,6 +29,9 @@
                     shipment {{ item.invoice_number.shipment.code }}{% else %}
                     {{ item.invoice_number.order.orderkinde }}
                     {{ item.invoice_number.order.first_code }}({{ item.invoice_number.order.fianl_code }})
+                    {% if item.invoice_number.order.shipment %}
+                        ((shipment {{ item.invoice_number.order.shipment.code }} ))
+                    {% endif %}
                 {% endif %} </td>
                 <td>{{ item.invoice_number.date }}</td>
                 <td class="input" id="input{{ forloop.counter }}">{{ item.input_quantity }}</td>

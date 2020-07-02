@@ -43,7 +43,7 @@ def warehouse_confirm_buy_order(request, id=None):
                         order=selected_buy_order,
                         code=last_code,
                         warehouse=selected_buy_order.warhouse,
-                        date=datetime.now ( )
+                        date=datetime.datetime.now ( )
                     )
                     for item in selected_buy_items:
                         WarehouseInvoiceItems.objects.create (
@@ -159,8 +159,8 @@ def deconfirm_buy_order(request, id):
                     selected_product_forDeconfirm.save ( )
                     selected_order.checked_out = False
                     selected_order.save ( )
-                    warehouse_invoice = WarehouseInvoiceNumber.objects.get (order=selected_order)
-                    warehouse_invoice.delete ( )
+                warehouse_invoice = WarehouseInvoiceNumber.objects.get (order=selected_order)
+                warehouse_invoice.delete ( )
                 return redirect ("warehouse_confirm_buy_order")
 
         else:

@@ -38,25 +38,30 @@
 {% endblock Head %}
 {% block content %}
 
+    <div style="margin-left: 3%;margin-right: 5%">
 
-
-    <div style="margin-bottom: 2%">
-
-<select name="warehouse" id="">
-            {% for warehose in accsess.warehouse.all %}
-            <option value="{{ warehose.id }}">{{ warehose.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <table id="datatable" class="table dataTable" style="text-align: center">
-        <thead>
-        <tr>
-            <th>Inventory ID</th>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Avrage Buy Price</th>
-            <th scope="col">Sell Price</th>
-            <th scope="col">Buy quantity</th>
+        <div style="margin-bottom: 2%">
+            <form action="" method="post">
+                <select name="warehouse" id="">
+                    <option value="0">All</option>
+                    {% for warehose in accsess.warehouse.all %}
+                        <option value="{{ warehose.id }}"
+                                {% if selected ==  warehose.id %} selected {% endif %} >
+                            {{ warehose.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="submit">{% csrf_token %}
+            </form>
+        </div>
+        <table id="datatable" class="table dataTable" style="text-align: center">
+            <thead>
+            <tr>
+                <th>Inventory ID</th>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Avrage Buy Price</th>
+                <th scope="col">Sell Price</th>
+                <th scope="col">Buy quantity</th>
             <th scope="col">Sell-Back </th>
             <th scope="col">Buy Back</th>
             <th scope="col">Order</th>
@@ -78,20 +83,21 @@
 
                 <td>{{ item.id }}</td>
                 <td scope="col"><a href="{% url 'cartext' item.id %}">{{ item.product.id }}</a></td>
-                <td >{{ item.product.name }}</td>
+                <td>{{ item.product.name }}</td>
                 <th>{{ item.average_buy_price|floatformat:2 }}</th>
                 <td>{{ item.product.price }}</td>
                 <td>{{ item.buy_quantity }}</td>
                 <td>{{ item.sell_back_quantity }}</td>
                 <td>{{ item.buy_back_quantity }}</td>
 
-                <td>{{ item.sell_order_quantity }}</td>
+                <td><a href="{% url 'sell_order_report' item.id %}" target="_blank">{{ item.sell_order_quantity }}</a>
+                </td>
                 <td>{{ item.sended }}</td>
-                 <td>{{ item.order_back_quantity }}</td>
+                <td>{{ item.order_back_quantity }}</td>
                 <td>{{ item.finalize_sell_quantity }}</td>
                 <td>{{ item.sell_stock }}</td>
                 <td>{{ item.stock }}
-                <p>{{ item.test_stock }}</p>
+                    <p>{{ item.test_stock }}</p>
                 </td>
                 <td>{{ item.stock|sub:item.test_stock }}</td>
                 <td class="cart_num">{{ item.warehouse }}</td>
@@ -108,6 +114,6 @@
         {% csrf_token %}
     </form>
 
-
+    </div>
 
 {% endblock %}

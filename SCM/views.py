@@ -86,6 +86,7 @@ def recieve_and_send_shipments(request):
                 selected_shipment.checked_out_2 = True
                 selected_shipment.save ( )
                 selected_shipment.sended_date = datetime.now ( )
+                selected_shipment.save ( )
                 last_code = 1
                 if WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( ):
                     coding = WarehouseInvoiceNumber.objects.all ( ).order_by ("code").last ( )
@@ -773,11 +774,39 @@ def cartex(request, id):
     return render (request, 'cartext.html', context)
 
 
+def sell_order_report(request, id):
+    user = request.user
+    access = Access.objects.get (user=user)
+    order_type = access.orderkind.all ( )
+    inventory = Inventory.objects.get (id=id)
+    orders = OrderItem.objects.filter (product=inventory.product,
+                                       order__warhouse=inventory.warehouse,
+                                       order__orderkinde__in=[kind for kind in order_type])
+
+    selection = 0
+    if request.method == "POST":
+        form = dict (request.POST)
+        selected_type = form["orderType"][0]
+        if selected_type != 0:
+            orders = OrderItem.objects.filter (product=inventory.product,
+                                               order__warhouse=inventory.warehouse,
+                                               order__orderkinde_id=selected_type)
+            selection = int (selected_type)
+
+    context = {
+        "orders": orders,
+        "inventory": inventory,
+        "types": order_type,
+        "selection": selection
+    }
+
+    return render (request, "ordersReport.html", context)
+
+
 # =================== CHART ===================================================
 
 import pandas as pd
 from datetime import datetime
-
 
 
 @login_required (login_url='login')
